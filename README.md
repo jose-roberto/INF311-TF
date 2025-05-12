@@ -1,9 +1,8 @@
 # INF311-TF
 Repositório para o desenvolvimento do trabalho final da disciplina INF311.
 
-[Base de conhecimento - Plataforma Rubeus](https://crmrubeus.zendesk.com/hc/pt-br/categories/360000249231-Base-de-conhecimento)
+## Descrição do projeto
 
-[Rubeus Developers](https://discord.com/channels/1337481389406162965/1347602384880406670/1357412538324619409)
-
-[Como cadastrar, editar e gerenciar usuários na Plataforma Rubeus](https://crmrubeus.zendesk.com/hc/pt-br/articles/360002235452-Usuários-como-cadastrar-editar-e-gerenciá-los-na-Plataforma-Rubeus)
-
+<p align=justify>
+O aplicativo “Painel do Estudante” tem como objetivo principal centralizar todas as informações disponíveis de cada estudante da instituição, de forma a facilitar o acesso às mesmas pelos consultores e gestores, que serão os usuários da aplicação. Desse modo, será possível obter informações relacionadas ao histórico acadêmico do estudante, como frequência, desempenho, cursos matriculados, dentre outras, de forma mais direta e prática. Além disso, será possível acessar informações relacionadas aos pagamentos referentes àquele estudante e documentos relacionados, facilitando o acompanhamento da relação estudante-instituição. Juntamente, o aplicativo visa fornecer insights personalizados para cada estudante, permitindo que os consultores e gestores realizem um acompanhamento personalizado, contribuindo assim para a tomada de decisões e suporte aos alunos. Para esse fim, existirão funcionalidades para a geração de relatórios sobre o estudante e a opção de adicionar observações sobre ele.
+</p>
