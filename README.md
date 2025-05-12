@@ -1,6 +1,12 @@
 # INF311-TF
 Repositório para o desenvolvimento do trabalho final da disciplina INF311.
 
+## Integrantes do grupo
+  1. Arthur Martins Maximo do Monte (arthur.monte@ufv.br)
+  2. José Roberto Martins Costa Júnior (jose.junior5@ufv.br)
+  3. Thiago Zimerer Duarte (thiago.z.duarte@ufv.br)
+  4. Victor Afonso Teixeira Santos (victor.a.santos@ufv.br)
+
 ## Descrição do projeto
 
 <p align=justify>
