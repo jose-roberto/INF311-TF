@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#72D8B5">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+
+        <ImageView
+            android:id="@+id/logoImageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"
+            android:src="@drawable/Logo"
+            android:contentDescription="Logo"/>
+
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/logoImageView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp"
+            android:text="Acompanhe seus estudantes"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#000000"/>
+
+        <EditText
+            android:id="@+id/searchEditText"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/titleTextView"
+            android:layout_marginTop="24dp"
+            android:background="@color/white"
+            android:hint="Fulano Ciclano"
+            android:paddingStart="48dp"
+            android:textColor="#000000"
+            android:textSize="16sp"/>
+
+        <ImageView
+            android:id="@+id/searchIcon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignStart="@id/searchEditText"
+            android:layout_alignTop="@id/searchEditText"
+            android:layout_marginStart="-5dp"
+            android:layout_marginTop="-6dp"
+            android:contentDescription="Ícone de busca"
+            android:src="@drawable/Search" />
+
+        <TextView
+            android:id="@+id/recentTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/searchIcon"
+            android:layout_marginTop="32dp"
+            android:text="Recentes"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#000000"/>
+
+        <LinearLayout
+            android:id="@+id/recentList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/recentTitleTextView"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical">
+        </LinearLayout>
+
+    </RelativeLayout>
+</ScrollView>
