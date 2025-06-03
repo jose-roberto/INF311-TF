@@ -16,12 +16,14 @@
             android:id="@+id/title_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Perfil de X"
-            android:textSize="24sp"
+            android:text="Perfil de Fulano"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="16dp" />
+            android:textColor="@android:color/black"
+            android:drawableStart="@drawable/ic_arrowback"
+            android:layout_marginTop="12dp"
+            android:drawablePadding="105dp"
+            android:layout_marginBottom="25dp" />
 
         <HorizontalScrollView
             android:id="@+id/tab_scroll"
@@ -34,7 +36,8 @@
                 android:id="@+id/tabs_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
 
                 <Button
                     android:id="@+id/tab_general"
@@ -42,6 +45,7 @@
                     android:layout_height="wrap_content"
                     android:text="Geral"
                     android:layout_marginRight="8dp"
+                    android:textStyle="bold"
                     android:textColor="@color/black"
                     android:backgroundTint="@color/white"/>
 
@@ -51,6 +55,7 @@
                     android:layout_height="wrap_content"
                     android:text="Histórico"
                     android:layout_marginRight="8dp"
+                    android:textStyle="bold"
                     android:textColor="@color/black"
                     android:backgroundTint="@color/white"/>
 
@@ -60,6 +65,7 @@
                     android:layout_height="wrap_content"
                     android:text="Financeiro"
                     android:layout_marginRight="8dp"
+                    android:textStyle="bold"
                     android:textColor="@color/black"
                     android:backgroundTint="@color/white"/>
 
@@ -69,6 +75,7 @@
                     android:layout_height="wrap_content"
                     android:text="Documentos"
                     android:layout_marginRight="8dp"
+                    android:textStyle="bold"
                     android:textColor="@color/black"
                     android:backgroundTint="@color/white"/>
 
@@ -82,79 +89,142 @@
             android:layout_below="@id/tab_scroll"
             android:orientation="vertical"
             android:layout_marginTop="16dp"
-            android:background="@color/white">
-
-            <ImageView
-                android:id="@+id/profile_image"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:src="@drawable/profile_picture"
-                android:layout_gravity="center_horizontal" />
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/section_container">
 
             <TextView
-                android:id="@+id/profile_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="fulano_ciclano"
-                android:textSize="16sp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/inter_regular"
-                />
-
-            <TextView
-                android:id="@+id/profile_fullname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Fulano Ciclano da Silva"
+                android:text="Informações gerais"
+                android:textStyle="bold"
                 android:textSize="18sp"
-                android:layout_marginTop="8dp"/>
+                android:drawableStart="@drawable/ic_arrowright"
+                android:drawablePadding="8dp"
+                style="@style/TitleContainer"/>
 
-            <TextView
-                android:id="@+id/profile_email"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                style="@style/InfoContainer">
+
+                <ImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/profile_picture" />
+
+                <TextView
+                    android:id="@+id/profile_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="fulano_ciclano"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/inter_regular"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="8dp" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="fulano.ciclano@rubeus.com"
-                android:layout_marginTop="8dp"/>
+                android:background="@drawable/info_container"
+                style="@style/InfoContainer">
 
-            <TextView
-                android:id="@+id/profile_birth"
+                <TextView
+                    android:id="@+id/profile_fullname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_account"
+                    android:drawablePadding="8dp"
+                    android:text="Fulano Ciclano da Silva"
+                    android:textSize="17sp"
+/>
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="14/08/1997"
-                android:layout_marginTop="8dp"/>
+                android:background="@drawable/info_container"
+                style="@style/InfoContainer">
 
-            <TextView
-                android:id="@+id/profile_course"
+                <TextView
+                    android:id="@+id/profile_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_mail"
+                    android:drawablePadding="8dp"
+                    android:text="fulano.ciclano@rubeus.com"
+                    android:textSize="17sp"/>
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Administração"
-                android:layout_marginTop="8dp"/>
+                android:background="@drawable/info_container"
+                style="@style/InfoContainer">
+
+                <TextView
+                    android:id="@+id/profile_birth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_calendar"
+                    android:drawablePadding="8dp"
+                    android:text="14/08/1997"
+                    android:textSize="17sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/info_container"
+                style="@style/InfoContainer">
+
+                <TextView
+                    android:id="@+id/profile_course"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_book"
+                    android:drawablePadding="8dp"
+                    android:text="Administração"
+                    android:textSize="17sp"/>
+            </LinearLayout>
 
         </LinearLayout>
 
-        <!-- Observações -->
         <LinearLayout
             android:id="@+id/observations_section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_below="@id/general_info_section"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="16dp"
+            android:background="@drawable/section_container">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Observações"
                 android:textStyle="bold"
+                android:drawableStart="@drawable/ic_arrowright"
+                android:drawablePadding="8dp"
+                style="@style/TitleContainer"
                 android:textSize="18sp"/>
 
-            <TextView
-                android:id="@+id/observation_content"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Fulano está tendo um desempenho satisfatório, apesar que uma melhora seria cabível"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/info_container"
+                style="@style/InfoContainer">
+
+                <TextView
+                    android:id="@+id/observation_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Fulano está tendo um desempenho satisfatório, apesar que uma melhora seria cabível"
+                    android:layout_marginTop="8dp"/>
+            </LinearLayout>
 
         </LinearLayout>
 

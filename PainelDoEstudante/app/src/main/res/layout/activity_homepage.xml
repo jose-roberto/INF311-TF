@@ -39,26 +39,16 @@
             android:layout_marginTop="24dp"
             android:background="@color/white"
             android:hint="Fulano Ciclano"
-            android:paddingStart="48dp"
+            android:paddingStart="18dp"
+            android:drawableStart="@drawable/ic_search"
             android:textColor="#000000"
             android:textSize="16sp"/>
-
-        <ImageView
-            android:id="@+id/searchIcon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_alignStart="@id/searchEditText"
-            android:layout_alignTop="@id/searchEditText"
-            android:layout_marginStart="-5dp"
-            android:layout_marginTop="-6dp"
-            android:contentDescription="Ícone de busca"
-            android:src="@drawable/search" />
 
         <TextView
             android:id="@+id/recentTitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/searchIcon"
+            android:layout_below="@id/searchEditText"
             android:layout_marginTop="32dp"
             android:text="Recentes"
             android:textSize="18sp"
