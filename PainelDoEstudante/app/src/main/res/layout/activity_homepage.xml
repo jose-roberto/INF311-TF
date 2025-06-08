@@ -11,7 +11,7 @@
         android:padding="24dp">
 
         <ImageView
-            android:id="@+id/logoImageView"
+            android:id="@+id/logo"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
@@ -20,10 +20,10 @@
             android:contentDescription="Logo"/>
 
         <TextView
-            android:id="@+id/titleTextView"
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/logoImageView"
+            android:layout_below="@id/logo"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="24dp"
             android:text="Acompanhe seus estudantes"
@@ -32,33 +32,23 @@
             android:textColor="#000000"/>
 
         <EditText
-            android:id="@+id/searchEditText"
+            android:id="@+id/searchField"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_below="@id/titleTextView"
+            android:layout_below="@id/title"
             android:layout_marginTop="24dp"
             android:background="@color/white"
             android:hint="Fulano Ciclano"
-            android:paddingStart="48dp"
+            android:paddingStart="18dp"
+            android:drawableStart="@drawable/ic_search"
             android:textColor="#000000"
             android:textSize="16sp"/>
 
-        <ImageView
-            android:id="@+id/searchIcon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_alignStart="@id/searchEditText"
-            android:layout_alignTop="@id/searchEditText"
-            android:layout_marginStart="-5dp"
-            android:layout_marginTop="-6dp"
-            android:contentDescription="Ícone de busca"
-            android:src="@drawable/search" />
-
         <TextView
-            android:id="@+id/recentTitleTextView"
+            android:id="@+id/recentTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/searchIcon"
+            android:layout_below="@id/searchField"
             android:layout_marginTop="32dp"
             android:text="Recentes"
             android:textSize="18sp"
@@ -69,7 +59,7 @@
             android:id="@+id/recentList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/recentTitleTextView"
+            android:layout_below="@id/recentTitle"
             android:layout_marginTop="16dp"
             android:orientation="vertical">
         </LinearLayout>

@@ -4,12 +4,9 @@
 
     <solid android:color="@color/white" />
 
-    <corners android:radius="16dp" />
+    <corners android:radius="8dp" />
 
-    <!-- (Opcional) Borda (stroke) -->
-    <!--
     <stroke
-        android:width="2dp"
-        android:color="#FF3700B3" />
-    -->
+        android:width="1dp"
+        android:color="#E0E0E0" />
 </shape>

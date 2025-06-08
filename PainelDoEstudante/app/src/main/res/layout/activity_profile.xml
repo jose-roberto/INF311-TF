@@ -7,157 +7,85 @@
     android:background="@color/background_green">
 
     <RelativeLayout
-        android:id="@+id/profile_container"
+        android:id="@+id/profileContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/title_profile"
+            android:id="@+id/titleProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Perfil de X"
-            android:textSize="24sp"
+            android:text="Perfil de Fulano"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="16dp" />
+            android:textColor="@android:color/black"
+            android:drawableStart="@drawable/ic_arrowback"
+            android:layout_marginTop="12dp"
+            android:drawablePadding="105dp"
+            android:layout_marginBottom="25dp" />
 
         <HorizontalScrollView
             android:id="@+id/tab_scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/title_profile"
+            android:layout_below="@id/titleProfile"
             android:scrollbars="none">
 
             <LinearLayout
-                android:id="@+id/tabs_container"
+                android:id="@+id/tabsContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
 
                 <Button
-                    android:id="@+id/tab_general"
+                    android:id="@+id/generalTab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Geral"
                     android:layout_marginRight="8dp"
-                    android:textColor="@color/black"
-                    android:backgroundTint="@color/white"/>
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:backgroundTint="@color/black"/>
 
                 <Button
-                    android:id="@+id/tab_history"
+                    android:id="@+id/historyTab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Histórico"
                     android:layout_marginRight="8dp"
+                    android:textStyle="bold"
                     android:textColor="@color/black"
                     android:backgroundTint="@color/white"/>
 
                 <Button
-                    android:id="@+id/tab_finance"
+                    android:id="@+id/financeTab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Financeiro"
                     android:layout_marginRight="8dp"
+                    android:textStyle="bold"
                     android:textColor="@color/black"
                     android:backgroundTint="@color/white"/>
 
                 <Button
-                    android:id="@+id/tab_documents"
+                    android:id="@+id/documentsTab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Documentos"
                     android:layout_marginRight="8dp"
+                    android:textStyle="bold"
                     android:textColor="@color/black"
                     android:backgroundTint="@color/white"/>
 
             </LinearLayout>
         </HorizontalScrollView>
 
-        <LinearLayout
-            android:id="@+id/general_info_section"
+        <FrameLayout
+            android:id="@+id/fragmentContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tab_scroll"
-            android:orientation="vertical"
-            android:layout_marginTop="16dp"
-            android:background="@color/white">
-
-            <ImageView
-                android:id="@+id/profile_image"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:src="@drawable/profile_picture"
-                android:layout_gravity="center_horizontal" />
-
-            <TextView
-                android:id="@+id/profile_username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="fulano_ciclano"
-                android:textSize="16sp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/inter_regular"
-                />
-
-            <TextView
-                android:id="@+id/profile_fullname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Fulano Ciclano da Silva"
-                android:textSize="18sp"
-                android:layout_marginTop="8dp"/>
-
-            <TextView
-                android:id="@+id/profile_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="fulano.ciclano@rubeus.com"
-                android:layout_marginTop="8dp"/>
-
-            <TextView
-                android:id="@+id/profile_birth"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="14/08/1997"
-                android:layout_marginTop="8dp"/>
-
-            <TextView
-                android:id="@+id/profile_course"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Administração"
-                android:layout_marginTop="8dp"/>
-
-        </LinearLayout>
-
-        <!-- Observações -->
-        <LinearLayout
-            android:id="@+id/observations_section"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_below="@id/general_info_section"
-            android:layout_marginTop="16dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Observações"
-                android:textStyle="bold"
-                android:textSize="18sp"/>
-
-            <TextView
-                android:id="@+id/observation_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Fulano está tendo um desempenho satisfatório, apesar que uma melhora seria cabível"
-                android:layout_marginTop="8dp"/>
-
-        </LinearLayout>
-
+            android:layout_height="0dp"
+            android:layout_weight="1" />
     </RelativeLayout>
-
 </ScrollView>

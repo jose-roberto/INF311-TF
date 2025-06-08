@@ -1,0 +1,169 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content" >
+
+    <LinearLayout
+        android:id="@+id/userContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:background="@drawable/section_container" >
+
+        <ImageView
+            android:id="@+id/profilePicture"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/profile_picture" />
+
+        <TextView
+            android:id="@+id/profileUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fulano Ciclano"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:fontFamily="@font/inter_regular"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/disciplinesContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_below="@id/userContainer"
+        android:background="@drawable/section_container">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3° semestre"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:drawableEnd="@drawable/ic_dropdown"
+            android:drawablePadding="8dp"
+            style="@style/TitleContainer"/>
+
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="30dp">
+
+            <TableRow>
+                <TextView
+                    android:text="Disciplina"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:text="Desempenho"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:text="Frequência"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:text="ADM 200"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+
+                <TextView
+                    android:text="75.5"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+
+                <TextView
+                    android:text="80%"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:text="ADM 201"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+
+                <TextView
+                    android:text="62.5"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+
+                <TextView
+                    android:text="90%"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:text="ADM 202"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+
+                <TextView
+                    android:text="83.5"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+
+                <TextView
+                    android:text="100%"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:text="ADM 203"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+
+                <TextView
+                    android:text="90.5"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+
+                <TextView
+                    android:text="70%"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/certificateContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/disciplinesContainer"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/section_container">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Coeficiente de rendimento"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:drawableEnd="@drawable/ic_dropdown"
+            android:drawablePadding="8dp"
+            style="@style/TitleContainer"/>
+    </LinearLayout>
+</RelativeLayout>
