@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#72D8B5">
+    android:background="#72D8B5"
+    android:id="@+id/homepage">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -16,7 +17,7 @@
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="60dp"
-            android:src="@drawable/Logo"
+            android:src="@drawable/logo"
             android:contentDescription="Logo"/>
 
         <TextView
