@@ -12,18 +12,18 @@
         android:background="@color/background_green">
 
         <ImageView
-            android:id="@+id/image_logo"
+            android:id="@+id/logo"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/logo" />
+            android:src="@drawable/Logo" />
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/image_logo"
+            android:layout_below="@id/logo"
             android:text="Painel do Estudante"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -40,7 +40,7 @@
             android:textStyle="bold" />
 
         <LinearLayout
-            android:id="@+id/form_container"
+            android:id="@+id/loginForm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/subtitle"
@@ -92,7 +92,7 @@
             android:id="@+id/terms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/form_container"
+            android:layout_below="@id/loginForm"
             android:layout_marginTop="16dp"
             android:gravity="center"
             android:text="Ao clicar em confirmar, você concorda com nossos Termos de Serviço e Políticas de Privacidade"
@@ -100,7 +100,7 @@
 
         <!-- Link de Cadastro (fixo na parte inferior) -->
         <TextView
-            android:id="@+id/signup_link"
+            android:id="@+id/signupLink"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

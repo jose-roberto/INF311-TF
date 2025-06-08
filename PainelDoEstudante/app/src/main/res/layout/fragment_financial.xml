@@ -1,0 +1,242 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content" >
+
+    <LinearLayout
+        android:id="@+id/userContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:background="@drawable/section_container" >
+
+        <ImageView
+            android:id="@+id/profilePicture"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/profile_picture" />
+
+        <TextView
+            android:id="@+id/profileUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fulano Ciclano"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:fontFamily="@font/inter_regular"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/paymentsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_below="@id/userContainer"
+        android:background="@drawable/section_container">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2025"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:drawableEnd="@drawable/ic_dropdown"
+            android:drawablePadding="8dp"
+            style="@style/TitleContainer"/>
+
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="30dp">
+
+            <TableRow>
+                <TextView
+                    android:text="Mês"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:text="Valor"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:text="Situação"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:text="Janeiro"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+
+                <TextView
+                    android:text="R$ 150,00"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+
+                <TextView
+                    android:text="Pago"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:text="Fevereiro"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+
+                <TextView
+                    android:text="R$ 150,00"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+
+                <TextView
+                    android:text="Pago"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:text="Março"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+
+                <TextView
+                    android:text="R$ 150,00"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+
+                <TextView
+                    android:text="Pago"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:text="Abril"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+
+                <TextView
+                    android:text="R$ 175,00"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+
+                <TextView
+                    android:text="Atrasado"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:text="Maio"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+
+                <TextView
+                    android:text="R$ 150,00"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+
+                <TextView
+                    android:text="Em aberto"
+                    android:padding="8dp"
+                    android:background="@drawable/border_cell" />
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/overviewContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/paymentsContainer"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/section_container">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Visão Geral"
+            android:textStyle="bold"
+            android:drawableStart="@drawable/ic_arrowright"
+            android:drawablePadding="8dp"
+            style="@style/TitleContainer"
+            android:textSize="18sp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textOpenPayments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="8dp"
+                android:text="Mensalidades em aberto:"
+                android:textSize="17sp"
+                android:background="@drawable/info_container"
+                android:textStyle="bold"
+                style="@style/InfoContainer" />
+
+            <TextView
+                android:id="@+id/valueOpenPayments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="8dp"
+                android:text="2"
+                android:textSize="17sp"
+                android:background="@drawable/info_container"
+                android:textStyle="bold"
+                style="@style/InfoContainer" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textValuePayments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="8dp"
+                android:text="Valor acumulado:"
+                android:textSize="17sp"
+                android:background="@drawable/info_container"
+                android:textStyle="bold"
+                style="@style/InfoContainer" />
+
+            <TextView
+                android:id="@+id/valueValuePayments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="8dp"
+                android:text="R$ 325,00"
+                android:textSize="17sp"
+                android:background="@drawable/info_container"
+                android:textStyle="bold"
+                style="@style/InfoContainer" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
