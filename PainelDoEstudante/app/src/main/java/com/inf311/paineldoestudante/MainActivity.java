@@ -3,6 +3,8 @@
 package com.inf311.paineldoestudante;
 
 // Imports de ferramentas e componentes do Android
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,9 +37,25 @@ public class MainActivity extends AppCompatActivity {
     private Button continueButton;
     private ProgressBar loadingProgressBar;
 
+    public static final String APP_PREFERENCES = "AppPrefs";
+    public static final String KEY_IS_LOGGED_IN = "isLoggedIn";
+    public static final String KEY_USER_ID = "userId";
+    public static final String KEY_USER_NAME = "userName";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences prefs = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+
+        boolean isLoggedIn = prefs.getBoolean(KEY_IS_LOGGED_IN, false);
+
+        if (isLoggedIn) {
+            Log.d("SESSAO", "Usuário já está logado. Pulando para a Homepage.");
+            irParaHomepage();
+            return;
+        }
+
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
@@ -57,11 +75,11 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Por favor, insira o email", Toast.LENGTH_SHORT).show();
                 return;
             }
-            realizarLogin(email);
+            fazLogin(email);
         });
     }
 
-    private void realizarLogin(String email) {
+    private void fazLogin(String email) {
         loadingProgressBar.setVisibility(View.VISIBLE);
         continueButton.setEnabled(false);
 
@@ -81,26 +99,23 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     try {
                         // Tradução manual -> html -> aplication
-                        String jsonString = response.body().string(); // ega a resposta como texto
-                        Gson gson = new Gson(); 
-                        UserResponse userResponse = gson.fromJson(jsonString, UserResponse.class); //faz de fato a traducao
-
+                        String jsonString = response.body().string();// ega a resposta como texto
+                        Gson gson = new Gson();
+                        UserResponse userResponse = gson.fromJson(jsonString, UserResponse.class);//faz de fato a traducao
 
                         if (userResponse.isSuccess() && userResponse.getDados() != null && !userResponse.getDados().isEmpty()) {
                             //aqui é quando deu certo
                             UserData gestor = userResponse.getDados().get(0);
-                            Toast.makeText(MainActivity.this, "SUCESSO! Bem-vindo, " + gestor.getNome(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, "Bem-vindo, " + gestor.getNome(), Toast.LENGTH_LONG).show();
 
-                            Intent intent = new Intent(MainActivity.this, HomepageActivity.class);
-                            startActivity(intent);
-                            finish();
+                            salvarSessao(gestor.getId(), gestor.getNome());
+                            irParaHomepage();
 
                         } else {
                             Toast.makeText(MainActivity.this, "Email não encontrado.", Toast.LENGTH_SHORT).show();
                         }
                     } catch (Exception e) {
-                        Toast.makeText(MainActivity.this, "Erro ao processar a resposta do servidor.", Toast.LENGTH_SHORT).show();
-                        Log.e("LOGIN_PARSE_ERRO", "Erro de tradução do JSON", e);
+                        Toast.makeText(MainActivity.this, "Erro ao processar a resposta.", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(MainActivity.this, "Erro no servidor: " + response.code(), Toast.LENGTH_SHORT).show();
@@ -115,5 +130,21 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("LOGIN_FALHA", "Erro: " + t.getMessage());
             }
         });
+    }
+    private void irParaHomepage() {
+        Intent intent = new Intent(MainActivity.this, HomepageActivity.class);
+        startActivity(intent);
+        finish(); // Fecha a tela de login para que o usuário não possa voltar para ela
+    }
+    private void salvarSessao(String userId, String userName) {
+        Log.d("SESSAO", "Salvando sessão para o usuário: " + userName);
+        SharedPreferences prefs = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit(); // Abre o "bloco de notas" para edição
+
+        editor.putBoolean(KEY_IS_LOGGED_IN, true); // Anota que o usuário está logado
+        editor.putString(KEY_USER_ID, userId);     // Anota o ID do usuário
+        editor.putString(KEY_USER_NAME, userName); // Anota o Nome do usuário
+
+        editor.apply(); // Salva as anotações. .apply() faz isso em segundo plano.
     }
 }

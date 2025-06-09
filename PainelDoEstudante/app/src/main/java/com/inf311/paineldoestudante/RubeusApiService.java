@@ -19,4 +19,7 @@ public interface RubeusApiService {
     @POST("api/Contato/dadosPessoas")
     Call<ResponseBody> loginGestor(@Body LoginRequest requestBody);
 
+    @POST("api/Contato/dadosPessoas")
+    Call<ResponseBody> searchContatos(@Body SearchRequest requestBody);
+
 }
