@@ -48,7 +48,7 @@ public class HomepageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_homepage);
 
         searchField = findViewById(R.id.searchField);
-        recentListLayout = findViewById(R.id.recentList);
+        recentListLayout = findViewById(R.id.recentsContainer);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.homepage), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
