@@ -1,19 +1,15 @@
 package com.inf311.paineldoestudante;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
-
-import com.google.gson.Gson;
 
 import java.util.Arrays;
 import java.util.List;
@@ -55,7 +51,6 @@ public class ProfileActivity extends AppCompatActivity {
                     .commit();
         }
 
-        // 2) Dispara a chamada
         String userId = getIntent().getStringExtra("USER_ID");
 
         Log.d("USER_ID", "Email do usuário: " + userId);
@@ -63,14 +58,13 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void getStudent(String idStr) {
-        int id = Integer.parseInt(idStr); // trate NumberFormatException se precisar
+        int id = Integer.parseInt(idStr);
 
-        // Peça exatamente os campos que quer ver
         List<String> campos = Arrays.asList(
                 "id",
                 "nome",
-                "emailPrincipal",   // conforme doc
-                "dataNascimento"    // conforme doc
+                "emailPrincipal",
+                "dataNascimento"
         );
 
         StudentRequest request = new StudentRequest(

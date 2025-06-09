@@ -6,11 +6,14 @@ public class StudentResponse {
     @SerializedName("success")
     private boolean success;
 
-    // não há qtdTotal aqui
-
     @SerializedName("dados")
     private StudentData dados;
 
-    public boolean isSuccess() { return success; }
-    public StudentData getDados() { return dados; }
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public StudentData getDados() {
+        return dados;
+    }
 }

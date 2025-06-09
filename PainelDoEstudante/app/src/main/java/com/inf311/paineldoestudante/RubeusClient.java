@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.logging.HttpLoggingInterceptor;
 
-
 public class RubeusClient {
     private static final String BASE_URL = "https://crmufvgrupo5.apprubeus.com.br/";
     private static RubeusApi instance;
