@@ -10,8 +10,8 @@
         android:id="@+id/profileContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        >
+        android:layout_margin="4dp"
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/titleProfile"
@@ -27,7 +27,7 @@
             android:layout_marginBottom="25dp" />
 
         <HorizontalScrollView
-            android:id="@+id/tab_scroll"
+            android:id="@+id/tabScroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/titleProfile"
@@ -86,7 +86,8 @@
         <FrameLayout
             android:id="@+id/fragmentContainer"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_height="match_parent"
+            android:layout_below="@id/tabScroll"
+            android:layout_marginTop="10dp"/>
     </RelativeLayout>
 </ScrollView>
