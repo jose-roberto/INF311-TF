@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
-    android:layout_width="wrap_content" >
+    android:layout_width="wrap_content"
+    style="@style/GeneralContainer">
 
     <LinearLayout
         android:id="@+id/userContainer"
@@ -33,7 +34,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:layout_below="@id/userContainer"
         android:background="@drawable/section_container">
