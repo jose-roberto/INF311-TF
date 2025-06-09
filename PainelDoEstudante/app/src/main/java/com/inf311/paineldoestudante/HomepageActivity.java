@@ -2,10 +2,7 @@ package com.inf311.paineldoestudante;
 
 import android.os.Bundle;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
@@ -66,7 +63,9 @@ public class HomepageActivity extends AppCompatActivity {
         // cria um listener no campo de buscas
         searchField.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // se tem alguma coisa no campo de busca, cancela a busca anterior pra nao ficar tendo varias buscas
@@ -96,16 +95,16 @@ public class HomepageActivity extends AppCompatActivity {
             }
         });
     }
+
     private void executeSearch(String query) {
         // colocar depois no SharedPreferences
         int origem = 9;
         String token = "f70e467007e33f442d2b01c37e6e0397";
 
-
-        SearchRequest request = new SearchRequest(query, origem, token);
+        UserRequest request = new UserRequest(query, origem, token);
 
         // chama a funcao de busca e o coloca na fila.
-        RetrofitClient.getInstance().searchContatos(request).enqueue(new Callback<ResponseBody>() {
+        RubeusClient.getInstance().searchContatos(request).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
 
@@ -115,7 +114,7 @@ public class HomepageActivity extends AppCompatActivity {
                         String jsonString = response.body().string();
                         Gson gson = new Gson();
                         UserResponse userResponse = gson.fromJson(jsonString, UserResponse.class);
-                        if(userResponse.isSuccess()) {
+                        if (userResponse.isSuccess()) {
                             //se der certo atualiza a tela
                             updateSearchResults(userResponse.getDados());
                         }
@@ -133,6 +132,7 @@ public class HomepageActivity extends AppCompatActivity {
             }
         });
     }
+
     private void updateSearchResults(List<UserData> users) {
         recentListLayout.removeAllViews();
 
@@ -158,7 +158,7 @@ public class HomepageActivity extends AppCompatActivity {
                 // Cria a "carta de intenção" para ir para a ProfileActivity.
                 Intent intent = new Intent(HomepageActivity.this, ProfileActivity.class);
                 // No futuro, aqui é onde você passaria o ID do usuário para a próxima tela:
-                // intent.putExtra("USER_ID", user.getId());
+                intent.putExtra("USER_ID", user.getId());
                 startActivity(intent);
             });
 

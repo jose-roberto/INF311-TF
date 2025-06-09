@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_account"
                 android:drawablePadding="8dp"
-                android:text="Fulano Ciclano da Silva"
+
                 android:textSize="17sp" />
         </LinearLayout>
 

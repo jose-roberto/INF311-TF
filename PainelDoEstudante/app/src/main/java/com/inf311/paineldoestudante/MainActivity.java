@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         LoginRequest loginRequest = new LoginRequest(email, null, origem, token);
 
 
-        RetrofitClient.getInstance().loginGestor(loginRequest).enqueue(new Callback<ResponseBody>() {
+        RubeusClient.getInstance().loginGestor(loginRequest).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 loadingProgressBar.setVisibility(View.GONE);
