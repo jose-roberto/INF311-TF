@@ -1,5 +1,7 @@
 package com.inf311.paineldoestudante;
+
 import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class UserResponse {
@@ -10,7 +12,15 @@ public class UserResponse {
     @SerializedName("dados")
     private List<UserData> dados;
 
-    public boolean isSuccess() { return success; }
-    public int getQtdTotal() { return qtdTotal; }
-    public List<UserData> getDados() { return dados; }
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public int getQtdTotal() {
+        return qtdTotal;
+    }
+
+    public List<UserData> getDados() {
+        return dados;
+    }
 }

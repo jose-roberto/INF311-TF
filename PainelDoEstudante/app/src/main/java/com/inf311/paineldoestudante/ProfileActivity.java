@@ -1,8 +1,10 @@
 package com.inf311.paineldoestudante;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,10 +28,18 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_profile);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.profileContainer), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        ImageView backArrow = findViewById(R.id.backArrow);
+        backArrow.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, HomepageActivity.class);
+            startActivity(intent);
+            finish();
         });
 
         generalTab = findViewById(R.id.generalTab);
@@ -51,10 +61,10 @@ public class ProfileActivity extends AppCompatActivity {
                     .commit();
         }
 
-        String userId = getIntent().getStringExtra("USER_ID");
+        String currentUserId = getIntent().getStringExtra("USER_ID");
 
-        Log.d("USER_ID", "Email do usuário: " + userId);
-        getStudent(userId);
+        Log.d("USER_ID", "Email do usuário: " + currentUserId);
+        getStudent(currentUserId);
     }
 
     private void getStudent(String idStr) {
@@ -63,8 +73,8 @@ public class ProfileActivity extends AppCompatActivity {
         List<String> campos = Arrays.asList(
                 "id",
                 "nome",
-                "emailPrincipal",
-                "dataNascimento"
+                "emails",
+                "datanascimento"
         );
 
         StudentRequest request = new StudentRequest(
@@ -81,11 +91,11 @@ public class ProfileActivity extends AppCompatActivity {
                     public void onResponse(Call<StudentResponse> call,
                                            Response<StudentResponse> response) {
                         if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                            StudentData aluno = response.body().getDados();
-                            updateStudentView(aluno);
-                            Log.d("API_SUCCESS", "Aluno: " + aluno.getNome() +
-                                    " / Email: " + aluno.getEmail() +
-                                    " / Nascimento: " + aluno.getBirthday());
+                            StudentData currentStudent = response.body().getDados();
+                            updateStudentView(currentStudent);
+                            Log.d("API_SUCCESS", "Aluno: " + currentStudent.getNome() +
+                                    " / Email: " + currentStudent.getEmailPrincipal() +
+                                    " / Nascimento: " + currentStudent.getDataNascimento());
                         } else {
                             Log.e("API_ERROR", "Falha no fetch ou success=false: " + response.code());
                         }

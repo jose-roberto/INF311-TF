@@ -1,4 +1,5 @@
 package com.inf311.paineldoestudante;
+
 import com.google.gson.annotations.SerializedName;
 
 public class LoginRequest {

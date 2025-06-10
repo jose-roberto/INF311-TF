@@ -1,8 +1,5 @@
-// Local: app/src/main/java/com/inf311/paineldoestudante/MainActivity.java
-
 package com.inf311.paineldoestudante;
 
-// Imports de ferramentas e componentes do Android
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.Intent;
@@ -12,12 +9,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import com.google.android.material.textfield.TextInputEditText;
 
-// Import do GSON para fazer a tradução manual
 import com.google.gson.Gson;
 
-// Imports de bibliotecas de suporte do Google (AndroidX)
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,8 +21,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-// Imports das ferramentas do Retrofit e OkHttp
-import okhttp3.ResponseBody; // Importamos o "corpo bruto"
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -83,12 +78,10 @@ public class MainActivity extends AppCompatActivity {
         loadingProgressBar.setVisibility(View.VISIBLE);
         continueButton.setEnabled(false);
 
-
         int origem = 9; // aqui é o campo Código do Canal do painel do perfil -> integracoes -> canais/api
         String token = "f70e467007e33f442d2b01c37e6e0397"; // aqui é o campo token da mesma pagina
 
         LoginRequest loginRequest = new LoginRequest(email, null, origem, token);
-
 
         RubeusClient.getInstance().loginGestor(loginRequest).enqueue(new Callback<ResponseBody>() {
             @Override
@@ -131,20 +124,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     private void irParaHomepage() {
         Intent intent = new Intent(MainActivity.this, HomepageActivity.class);
         startActivity(intent);
-        finish(); // Fecha a tela de login para que o usuário não possa voltar para ela
+        finish();
     }
+
     private void salvarSessao(String userId, String userName) {
         Log.d("SESSAO", "Salvando sessão para o usuário: " + userName);
         SharedPreferences prefs = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit(); // Abre o "bloco de notas" para edição
+        SharedPreferences.Editor editor = prefs.edit();
 
-        editor.putBoolean(KEY_IS_LOGGED_IN, true); // Anota que o usuário está logado
-        editor.putString(KEY_USER_ID, userId);     // Anota o ID do usuário
-        editor.putString(KEY_USER_NAME, userName); // Anota o Nome do usuário
+        editor.putBoolean(KEY_IS_LOGGED_IN, true);
+        editor.putString(KEY_USER_ID, userId);
+        editor.putString(KEY_USER_NAME, userName);
 
-        editor.apply(); // Salva as anotações. .apply() faz isso em segundo plano.
+        editor.apply();
     }
 }

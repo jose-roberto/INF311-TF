@@ -13,7 +13,6 @@ public class UserRequest {
     @SerializedName("token")
     private String token;
 
-    // Construtor específico para a busca por nome
     public UserRequest(String nome, int origem, String token) {
         this.nome = nome;
         this.origem = origem;

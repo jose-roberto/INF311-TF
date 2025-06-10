@@ -35,7 +35,7 @@ public class HomepageActivity extends AppCompatActivity {
 
     private EditText searchField;
     private LinearLayout recentListLayout;
-    private Handler handler = new Handler(Looper.getMainLooper());//isso aqui vai agendar a busca com um delay
+    private Handler handler = new Handler(Looper.getMainLooper()); //isso aqui vai agendar a busca com um delay
     private Runnable searchRunnable;
 
     @Override
@@ -54,8 +54,6 @@ public class HomepageActivity extends AppCompatActivity {
         });
 
         setupSearch();
-
-
     }
 
     //configurar toda a lógica de busca.
@@ -153,17 +151,12 @@ public class HomepageActivity extends AppCompatActivity {
             nameTextView.setText(user.getNome());
             emailTextView.setText(user.getEmail());
 
-            // Define a ação de clique para o cartão inteiro.
             cardView.setOnClickListener(v -> {
-                // Cria a "carta de intenção" para ir para a ProfileActivity.
                 Intent intent = new Intent(HomepageActivity.this, ProfileActivity.class);
-                // No futuro, aqui é onde você passaria o ID do usuário para a próxima tela:
                 intent.putExtra("USER_ID", user.getId());
                 startActivity(intent);
             });
 
-            // Finalmente, adiciona o cartão pronto e configurado ao nosso container LinearLayout.
-            // É esta linha que faz o cartão aparecer na tela.
             recentListLayout.addView(cardView);
         }
     }

@@ -14,20 +14,20 @@ public class RubeusClient {
 
     public static RubeusApi getInstance() {
         if (instance == null) {
-            // 1) Cria o interceptor de logging
+            // Cria o interceptor de logging
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor(message ->
                     android.util.Log.d("RubeusHTTP", message)
             );
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-            // 2) Monta o client com timeout e interceptor
+            // Monta o client com timeout e interceptor
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(30, TimeUnit.SECONDS)
                     .readTimeout(30, TimeUnit.SECONDS)
                     .addInterceptor(logging)        // <— aqui
                     .build();
 
-            // 3) Cria o Retrofit
+            // Cria o Retrofit
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(client)

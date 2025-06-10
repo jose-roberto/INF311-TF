@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,72 +12,89 @@
         android:layout_margin="4dp"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/titleProfile"
+        <LinearLayout
+            android:id="@+id/llBackArrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Perfil de Fulano"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:drawableStart="@drawable/ic_arrowback"
             android:layout_marginTop="12dp"
-            android:drawablePadding="105dp"
-            android:layout_marginBottom="25dp" />
+            android:layout_marginBottom="25dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/backArrow"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:clickable="true"
+                android:contentDescription="Voltar"
+                android:focusable="true"
+                android:padding="4dp"
+                android:src="@drawable/ic_arrowback" />
+
+            <TextView
+                android:id="@+id/titleProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Perfil de Fulano"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
 
         <HorizontalScrollView
             android:id="@+id/tabScroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/titleProfile"
+            android:layout_below="@id/llBackArrow"
             android:scrollbars="none">
 
             <LinearLayout
                 android:id="@+id/tabsContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/generalTab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Geral"
                     android:layout_marginRight="8dp"
-                    android:textStyle="bold"
+                    android:backgroundTint="@color/black"
+                    android:text="Geral"
                     android:textColor="@color/white"
-                    android:backgroundTint="@color/black"/>
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/historyTab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Histórico"
                     android:layout_marginRight="8dp"
-                    android:textStyle="bold"
+                    android:backgroundTint="@color/white"
+                    android:text="Histórico"
                     android:textColor="@color/black"
-                    android:backgroundTint="@color/white"/>
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/financeTab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Financeiro"
                     android:layout_marginRight="8dp"
-                    android:textStyle="bold"
+                    android:backgroundTint="@color/white"
+                    android:text="Financeiro"
                     android:textColor="@color/black"
-                    android:backgroundTint="@color/white"/>
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/documentsTab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Documentos"
                     android:layout_marginRight="8dp"
-                    android:textStyle="bold"
+                    android:backgroundTint="@color/white"
+                    android:text="Documentos"
                     android:textColor="@color/black"
-                    android:backgroundTint="@color/white"/>
+                    android:textStyle="bold" />
 
             </LinearLayout>
         </HorizontalScrollView>
@@ -88,7 +104,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/tabScroll"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp" />
     </RelativeLayout>
 </ScrollView>
 

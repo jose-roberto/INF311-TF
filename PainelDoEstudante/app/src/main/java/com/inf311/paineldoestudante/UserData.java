@@ -1,4 +1,5 @@
 package com.inf311.paineldoestudante;
+
 import com.google.gson.annotations.SerializedName;
 
 public class UserData {
@@ -9,7 +10,15 @@ public class UserData {
     @SerializedName("email")
     private String email;
 
-    public String getId() { return id; }
-    public String getNome() { return nome; }
-    public String getEmail() { return email; }
+    public String getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getEmail() {
+        return email;
+    }
 }

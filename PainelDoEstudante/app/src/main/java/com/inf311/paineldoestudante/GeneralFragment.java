@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-
 public class GeneralFragment extends Fragment {
 
     private ImageView profilePicture;
@@ -35,7 +34,7 @@ public class GeneralFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // Liga as views
+
         profilePicture = view.findViewById(R.id.profilePicture);
         profileUsername = view.findViewById(R.id.profileUsername);
         userName = view.findViewById(R.id.userName);
@@ -51,9 +50,9 @@ public class GeneralFragment extends Fragment {
         profileUsername.setText(data.getNome());
         userName.setText(data.getNome());
 
-        userEmail.setText(data.getEmail());
+        userEmail.setText(data.getEmailPrincipal());
 
-        String raw = data.getBirthday();
+        String raw = data.getDataNascimento();
         String formatted;
         try {
             String[] parts = raw.split("-");
