@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -47,12 +48,29 @@ public class ProfileActivity extends AppCompatActivity {
         financeTab = findViewById(R.id.financeTab);
         documentsTab = findViewById(R.id.documentsTab);
 
+        List<Button> tabButtons = Arrays.asList(generalTab, historyTab, financeTab, documentsTab);
+
         replaceFragment(new GeneralFragment());
 
-        generalTab.setOnClickListener(v -> replaceFragment(new GeneralFragment()));
-        historyTab.setOnClickListener(v -> replaceFragment(new HistoryFragment()));
-        financeTab.setOnClickListener(v -> replaceFragment(new FinancialFragment()));
-        documentsTab.setOnClickListener(v -> replaceFragment(new DocumentFragment()));
+        generalTab.setOnClickListener(v -> {
+            replaceFragment(new GeneralFragment());
+            setActiveTab(generalTab);
+        });
+
+        historyTab.setOnClickListener(v -> {
+            replaceFragment(new HistoryFragment());
+            setActiveTab(historyTab);
+        });
+
+        financeTab.setOnClickListener(v -> {
+            replaceFragment(new FinancialFragment());
+            setActiveTab(financeTab);
+        });
+
+        documentsTab.setOnClickListener(v -> {
+            replaceFragment(new DocumentFragment());
+            setActiveTab(documentsTab);
+        });
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()
@@ -122,5 +140,19 @@ public class ProfileActivity extends AppCompatActivity {
                 .beginTransaction()
                 .replace(R.id.fragmentContainer, fragment)
                 .commit();
+    }
+
+    private void setActiveTab(Button activeTab) {
+        List<Button> allTabs = Arrays.asList(generalTab, historyTab, financeTab, documentsTab);
+
+        for (Button tab : allTabs) {
+            if (tab == activeTab) {
+                tab.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.black));
+                tab.setTextColor(ContextCompat.getColor(this, R.color.white));
+            } else {
+                tab.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.white));
+                tab.setTextColor(ContextCompat.getColor(this, R.color.black));
+            }
+        }
     }
 }
