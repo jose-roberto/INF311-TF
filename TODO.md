@@ -4,7 +4,7 @@
 - [ ] Atualizar os perfis acessados recentemente
 - [ ] Implementar exibição e adição de observações no perfil
 - [ ] Completar informações do perfil
-- [ ] Corrigir o front para mudar a cor do menu ao navegar nas páginas do perfil
+- [X] Corrigir o front para mudar a cor do menu ao navegar nas páginas do perfil
 - [ ] Rever lógica da página de histórico e conectar à API
 - [ ] Rever lógica da página de financeiro e conectar à API
 - [ ] Conectar página de documentos à API
