@@ -1,1 +1,12 @@
-
+- [ ] Atualizar e incluir informações na plataforma da Rubeus
+- [ ] Fazer a pesquisa com AutoComplete e melhorar visualização
+- [ ] Fazer um login funcional (ver se é possível utilizar sistema da Rubeus)
+- [ ] Atualizar os perfis acessados recentemente
+- [ ] Implementar exibição e adição de observações no perfil
+- [ ] Completar informações do perfil
+- [ ] Corrigir o front para mudar a cor do menu ao navegar nas páginas do perfil
+- [ ] Rever lógica da página de histórico e conectar à API
+- [ ] Rever lógica da página de financeiro e conectar à API
+- [ ] Conectar página de documentos à API
+- [ ] Permitir que o documento seja aberto via aplicação
+- [ ] Adicionar página de relatório
