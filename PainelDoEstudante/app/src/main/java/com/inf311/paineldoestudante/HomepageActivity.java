@@ -10,6 +10,8 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,6 +26,7 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -33,10 +36,10 @@ import retrofit2.Response;
 
 public class HomepageActivity extends AppCompatActivity {
 
-    private EditText searchField;
-    private LinearLayout recentListLayout;
+    private AutoCompleteTextView searchField;
     private Handler handler = new Handler(Looper.getMainLooper()); //isso aqui vai agendar a busca com um delay
     private Runnable searchRunnable;
+    private List<UserData> lastSearchUsers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +48,7 @@ public class HomepageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_homepage);
 
         searchField = findViewById(R.id.searchField);
-        recentListLayout = findViewById(R.id.recentsContainer);
+        setupSearch();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.homepage), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -82,16 +85,34 @@ public class HomepageActivity extends AppCompatActivity {
                     // so busca se for por pelo menos 2 caracteres
                     if (!query.isEmpty() && query.length() >= 2) {
                         executeSearch(query);
-                    } else {
-                        //caso seja nao seja >= 2 tira da lista
-                        recentListLayout.removeAllViews();
                     }
+//                    else {
+//                        //caso seja nao seja >= 2 tira da lista
+//                        recentListLayout.removeAllViews();
+//                    }
                 };
 
                 // faz a consulta esperar meio segundo pra ser feita, esperando o usuario digitar
                 handler.postDelayed(searchRunnable, 500);
             }
         });
+
+        searchField.setOnItemClickListener((parent, view, position, id) -> {
+            String nomeSelecionado = (String) parent.getItemAtPosition(position);
+
+            // Aqui você pode buscar pelo nome dentro da última lista de usuários encontrados
+            // Para isso, guarde a lista numa variável de instância:
+
+            for (UserData user : lastSearchUsers) {
+                if (user.getNome().equals(nomeSelecionado)) {
+                    Intent intent = new Intent(HomepageActivity.this, ProfileActivity.class);
+                    intent.putExtra("USER_ID", user.getId());
+                    startActivity(intent);
+                    break;
+                }
+            }
+        });
+
     }
 
     private void executeSearch(String query) {
@@ -105,16 +126,32 @@ public class HomepageActivity extends AppCompatActivity {
         RubeusClient.getInstance().searchContatos(request).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-
                 if (response.isSuccessful() && response.body() != null) {
                     try {
-                        // traducao la que tem na main
                         String jsonString = response.body().string();
                         Gson gson = new Gson();
                         UserResponse userResponse = gson.fromJson(jsonString, UserResponse.class);
                         if (userResponse.isSuccess()) {
-                            //se der certo atualiza a tela
-                            updateSearchResults(userResponse.getDados());
+                            List<UserData> users = userResponse.getDados();
+
+                            // Mostrar sugestões de autocomplete
+                            List<String> sugestoes = new ArrayList<>();
+                            for (UserData user : users) {
+                                sugestoes.add(user.getNome()); // ou user.getNome() + " - " + user.getEmail()
+                            }
+
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                                    HomepageActivity.this,
+                                    android.R.layout.simple_dropdown_item_1line,
+                                    sugestoes
+                            );
+
+                            runOnUiThread(() -> {
+                                lastSearchUsers = users;
+                                searchField.setAdapter(adapter);
+                                searchField.showDropDown(); // força abrir o dropdown
+//                                updateSearchResults(users); // ainda atualiza a tela
+                            });
                         }
                     } catch (Exception e) {
                         Log.e("SEARCH_ERROR", "Erro de parsing", e);
@@ -124,40 +161,39 @@ public class HomepageActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                //logcat aqui pra mostrar se der errado e um balaozin de texto
                 Toast.makeText(HomepageActivity.this, "Erro de conexão na busca", Toast.LENGTH_SHORT).show();
                 Log.e("SEARCH_FAILURE", "Erro de rede", t);
             }
         });
     }
-
-    private void updateSearchResults(List<UserData> users) {
-        recentListLayout.removeAllViews();
-
-        if (users == null || users.isEmpty()) {
-            return;
-        }
-
-        // define o que vai pegar o xml
-        LayoutInflater inflater = LayoutInflater.from(this);
-        // aqui vai rodar pra cada resultado
-        for (UserData user : users) {
-            //meio que literalmente infla uma view de cartao usando o que eu fiz no xml do cartao
-            View cardView = inflater.inflate(R.layout.item_search_result, recentListLayout, false);
-
-            // pega os textviews do xml e coloca com o nome e email do resultado atual do loop
-            TextView nameTextView = cardView.findViewById(R.id.textView_name);
-            TextView emailTextView = cardView.findViewById(R.id.textView_email);
-            nameTextView.setText(user.getNome());
-            emailTextView.setText(user.getEmail());
-
-            cardView.setOnClickListener(v -> {
-                Intent intent = new Intent(HomepageActivity.this, ProfileActivity.class);
-                intent.putExtra("USER_ID", user.getId());
-                startActivity(intent);
-            });
-
-            recentListLayout.addView(cardView);
-        }
-    }
 }
+
+//    private void updateSearchResults(List<UserData> users) {
+//        recentListLayout.removeAllViews();
+//
+//        if (users == null || users.isEmpty()) {
+//            return;
+//        }
+//
+//        // define o que vai pegar o xml
+//        LayoutInflater inflater = LayoutInflater.from(this);
+//        // aqui vai rodar pra cada resultado
+//        for (UserData user : users) {
+//            //meio que literalmente infla uma view de cartao usando o que eu fiz no xml do cartao
+//            View cardView = inflater.inflate(R.layout.item_search_result, recentListLayout, false);
+//
+//            // pega os textviews do xml e coloca com o nome e email do resultado atual do loop
+//            TextView nameTextView = cardView.findViewById(R.id.textView_name);
+//            TextView emailTextView = cardView.findViewById(R.id.textView_email);
+//            nameTextView.setText(user.getNome());
+//            emailTextView.setText(user.getEmail());
+//
+//            cardView.setOnClickListener(v -> {
+//                Intent intent = new Intent(HomepageActivity.this, ProfileActivity.class);
+//                intent.putExtra("USER_ID", user.getId());
+//                startActivity(intent);
+//            });
+//
+//            recentListLayout.addView(cardView);
+//        }
+//    }

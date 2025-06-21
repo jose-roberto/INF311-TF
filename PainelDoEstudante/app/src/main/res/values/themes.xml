@@ -1,13 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.PainelDoEstudante" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-
+    <style name="Base.Theme.PainelDoEstudante" parent="Theme.Material3.Light.NoActionBar">
         <item name="android:fontFamily">@font/inter_regular</item>
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="Theme.PainelDoEstudante" parent="Base.Theme.PainelDoEstudante" />
     <style name="InfoContainer">
         <item name="android:layout_marginLeft">28dp</item>
         <item name="android:layout_marginRight">28dp</item>
@@ -26,6 +23,4 @@
         <item name="android:layout_marginLeft">12dp</item>
         <item name="android:layout_marginRight">12dp</item>
     </style>
-
-    <style name="Theme.PainelDoEstudante" parent="Base.Theme.PainelDoEstudante" />
 </resources>
