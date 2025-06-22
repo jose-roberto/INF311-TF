@@ -13,6 +13,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,6 +23,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProfileActivity extends AppCompatActivity {
+    private ProfileViewModel vm;
     Button generalTab, historyTab, financeTab, documentsTab;
 
     @Override
@@ -50,7 +52,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         List<Button> tabButtons = Arrays.asList(generalTab, historyTab, financeTab, documentsTab);
 
-        replaceFragment(new GeneralFragment());
+        vm = new ViewModelProvider(this).get(ProfileViewModel.class);
 
         generalTab.setOnClickListener(v -> {
             replaceFragment(new GeneralFragment());
@@ -73,14 +75,11 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragmentContainer, new GeneralFragment())
-                    .commit();
+            replaceFragment(new GeneralFragment());
+            setActiveTab(generalTab);
         }
 
         String currentUserId = getIntent().getStringExtra("USER_ID");
-
         Log.d("USER_ID", "Email do usuário: " + currentUserId);
         getStudent(currentUserId);
     }
@@ -92,7 +91,8 @@ public class ProfileActivity extends AppCompatActivity {
                 "id",
                 "nome",
                 "emails",
-                "datanascimento"
+                "datanascimento",
+                "camposPersonalizados"
         );
 
         StudentRequest request = new StudentRequest(
@@ -110,10 +110,11 @@ public class ProfileActivity extends AppCompatActivity {
                                            Response<StudentResponse> response) {
                         if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                             StudentData currentStudent = response.body().getDados();
-                            updateStudentView(currentStudent);
+                            vm.setStudent(currentStudent);
                             Log.d("API_SUCCESS", "Aluno: " + currentStudent.getNome() +
                                     " / Email: " + currentStudent.getEmailPrincipal() +
                                     " / Nascimento: " + currentStudent.getDataNascimento());
+                            getHistory(Integer.parseInt(currentStudent.getId()));
                         } else {
                             Log.e("API_ERROR", "Falha no fetch ou success=false: " + response.code());
                         }
@@ -126,13 +127,38 @@ public class ProfileActivity extends AppCompatActivity {
                 });
     }
 
-    private void updateStudentView(StudentData data) {
-        Fragment frag = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
-        if (frag instanceof GeneralFragment) {
-            ((GeneralFragment) frag).updateStudentView(data);
-        } else {
-            Log.e("UPDATE_VIEW", "GeneralFragment não encontrado");
-        }
+    private void getHistory(int contactId) {
+        List<String> camposRetorno = Arrays.asList(
+                "id",
+                "etapaNome",
+                "camposPersonalizados"
+        );
+
+        RegisterRequest request = new RegisterRequest(
+                9,
+                "f70e467007e33f442d2b01c37e6e0397",
+                contactId,
+                camposRetorno
+        );
+
+        RubeusClient.getInstance()
+                .listarRegistros(request)
+                .enqueue(new Callback<RegisterListResponse>() {
+                    @Override
+                    public void onResponse(Call<RegisterListResponse> call, Response<RegisterListResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                            vm.setHistory(response.body().getDados());
+                            Log.d("API_SUCCESS", "Histórico com campos personalizados carregado!");
+                        } else {
+                            Log.e("API_ERROR", "Falha no fetch ou success=false: " + response.code());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<RegisterListResponse> call, Throwable t) {
+                        Log.e("NETWORK_ERROR", "Erro na requisição", t);
+                    }
+                });
     }
 
     private void replaceFragment(Fragment fragment) {

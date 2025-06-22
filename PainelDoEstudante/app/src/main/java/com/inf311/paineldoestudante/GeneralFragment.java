@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 public class GeneralFragment extends Fragment {
 
@@ -20,6 +21,8 @@ public class GeneralFragment extends Fragment {
     private TextView userBirth;
     private TextView userCourse;
     private TextView obs1;
+
+    private ProfileViewModel viewModel;
 
     public GeneralFragment() {
         // Required empty public constructor
@@ -42,9 +45,15 @@ public class GeneralFragment extends Fragment {
         userBirth = view.findViewById(R.id.userBirth);
         userCourse = view.findViewById(R.id.userCourse);
         obs1 = view.findViewById(R.id.obs1);
+
+        viewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
+
+        viewModel.getStudent().observe(getViewLifecycleOwner(), data -> {
+            updateStudentView(data);
+        });
     }
 
-    public void updateStudentView(StudentData data) {
+    private void updateStudentView(StudentData data) {
         if (data == null) return;
 
         profileUsername.setText(data.getNome());
@@ -61,8 +70,8 @@ public class GeneralFragment extends Fragment {
             formatted = raw;
         }
         userBirth.setText(formatted);
+        userCourse.setText(data.getCurso());
 
-        userCourse.setText("--");
         obs1.setText("--");
     }
 }

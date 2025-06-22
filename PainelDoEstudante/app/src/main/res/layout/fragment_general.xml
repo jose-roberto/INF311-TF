@@ -4,51 +4,55 @@
     style="@style/GeneralContainer">
 
     <LinearLayout
+        android:id="@+id/userContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:background="@drawable/section_container" >
+
+        <ImageView
+            android:id="@+id/profilePicture"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/profile_picture" />
+
+        <TextView
+            android:id="@+id/profileUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fulano Ciclano"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:fontFamily="@font/inter_regular"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/userInfoContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/section_container">
+        android:layout_below="@id/userContainer"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/section_container"
+        android:orientation="vertical">
 
         <TextView
+            style="@style/TitleContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Informações gerais"
-            android:textStyle="bold"
-            android:textSize="18sp"
             android:drawableStart="@drawable/ic_arrowright"
             android:drawablePadding="8dp"
-            style="@style/TitleContainer"/>
+            android:text="Informações gerais"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            style="@style/InfoContainer">
-
-            <ImageView
-                android:id="@+id/profilePicture"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/profile_picture" />
-
-            <TextView
-                android:id="@+id/profileUsername"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Fulano Ciclano"
-                android:textSize="16sp"
-                android:fontFamily="@font/inter_regular"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="8dp" />
-        </LinearLayout>
-
-        <LinearLayout
+            style="@style/InfoContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/info_container"
-            style="@style/InfoContainer">
+            android:background="@drawable/info_container">
 
             <TextView
                 android:id="@+id/userName"
@@ -56,15 +60,14 @@
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_account"
                 android:drawablePadding="8dp"
-
                 android:textSize="17sp" />
         </LinearLayout>
 
         <LinearLayout
+            style="@style/InfoContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/info_container"
-            style="@style/InfoContainer">
+            android:background="@drawable/info_container">
 
             <TextView
                 android:id="@+id/userEmail"
@@ -72,15 +75,14 @@
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_mail"
                 android:drawablePadding="8dp"
-                android:text="fulano.ciclano@rubeus.com"
-                android:textSize="17sp"/>
+                android:textSize="17sp" />
         </LinearLayout>
 
         <LinearLayout
+            style="@style/InfoContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/info_container"
-            style="@style/InfoContainer">
+            android:background="@drawable/info_container">
 
             <TextView
                 android:id="@+id/userBirth"
@@ -88,15 +90,14 @@
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_calendar"
                 android:drawablePadding="8dp"
-                android:text="14/08/1997"
-                android:textSize="17sp"/>
+                android:textSize="17sp" />
         </LinearLayout>
 
         <LinearLayout
+            style="@style/InfoContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/info_container"
-            style="@style/InfoContainer">
+            android:background="@drawable/info_container">
 
             <TextView
                 android:id="@+id/userCourse"
@@ -104,10 +105,8 @@
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_book"
                 android:drawablePadding="8dp"
-                android:text="Administração"
-                android:textSize="17sp"/>
+                android:textSize="17sp" />
         </LinearLayout>
-
     </LinearLayout>
 
     <LinearLayout

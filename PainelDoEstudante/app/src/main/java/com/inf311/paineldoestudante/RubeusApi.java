@@ -14,4 +14,10 @@ public interface RubeusApi {
 
     @POST("api/Contato/dadosPessoa")
     Call<StudentResponse> getStudent(@Body StudentRequest requestBody);
+
+    @POST("api/Contato/listarOportunidades")
+    Call<RegisterListResponse> listarRegistros(@Body RegisterRequest request);
+
+    @POST("api/Registro/dados")
+    Call<RegisterResponse> buscarRegistro(@Body RegisterRequest request);
 }

@@ -2,6 +2,8 @@ package com.inf311.paineldoestudante;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class StudentData {
     @SerializedName("id")
     private String id;
@@ -14,6 +16,9 @@ public class StudentData {
 
     @SerializedName("emails")
     private EmailsWrapper emails;
+
+    @SerializedName("camposPersonalizados")
+    private List<UserProperties> userProperties;
 
     public String getId() {
         return id;
@@ -41,5 +46,17 @@ public class StudentData {
     public static class EmailItem {
         @SerializedName("email")
         public String email;
+    }
+
+    public String getCurso() {
+        if (userProperties != null && !userProperties.isEmpty()) {
+            UserProperties course = userProperties.get(0);
+
+            if (course != null) {
+                return course.getValor();
+            }
+        }
+
+        return "--";
     }
 }
