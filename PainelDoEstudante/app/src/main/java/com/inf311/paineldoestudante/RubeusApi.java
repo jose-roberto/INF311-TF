@@ -20,4 +20,13 @@ public interface RubeusApi {
 
     @POST("api/Registro/dados")
     Call<RegisterResponse> buscarRegistro(@Body RegisterRequest request);
+
+    @POST("api/Evento/cadastroTipoEvento")
+    Call<CreateEventTypeResponse> createEventType(@Body CreateEventTypeRequest requestBody);
+
+    @POST("api/Evento/cadastro")
+    Call<EventResponse> addEvent(@Body EventRequest requestBody);
+
+    @POST("api/Evento/listarEventos")
+    Call<ListEventsResponse> listEvents(@Body ListEventsRequest requestBody);
 }

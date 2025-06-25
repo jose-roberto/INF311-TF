@@ -1,36 +1,48 @@
 package com.inf311.paineldoestudante;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class GeneralFragment extends Fragment {
 
-    private ImageView profilePicture;
-    private TextView profileUsername;
-    private TextView userName;
-    private TextView userEmail;
-    private TextView userBirth;
-    private TextView userCourse;
-    private TextView obs1;
+    // --- Componentes da View ---
+    private TextView profileUsername, userName, userEmail, userBirth, userCourse;
+    private EditText observationEditText;
+    private Button saveObservationButton;
+    private LinearLayout observationsListLayout;
 
+    // --- Ferramentas de Lógica ---
     private ProfileViewModel viewModel;
+    private String studentId;
 
-    public GeneralFragment() {
-        // Required empty public constructor
-    }
+    public GeneralFragment() { }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_general, container, false);
     }
 
@@ -38,40 +50,170 @@ public class GeneralFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        profilePicture = view.findViewById(R.id.profilePicture);
+        // Conecta todas as variáveis aos componentes do layout
+        setupViews(view);
+
+        // Configura o ViewModel para receber os dados do estudante da ProfileActivity
+        viewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
+        viewModel.getStudent().observe(getViewLifecycleOwner(), this::updateStudentView);
+
+        // Configura o clique do botão de salvar
+        saveObservationButton.setOnClickListener(v -> {
+            String observationText = observationEditText.getText().toString().trim();
+            if (!observationText.isEmpty()) {
+                saveObservationToApi(observationText);
+            } else {
+                Toast.makeText(getContext(), "A observação não pode ser vazia.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // Método ajudante para manter o onViewCreated limpo
+    private void setupViews(View view) {
         profileUsername = view.findViewById(R.id.profileUsername);
         userName = view.findViewById(R.id.userName);
         userEmail = view.findViewById(R.id.userEmail);
         userBirth = view.findViewById(R.id.userBirth);
         userCourse = view.findViewById(R.id.userCourse);
-        obs1 = view.findViewById(R.id.obs1);
-
-        viewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
-
-        viewModel.getStudent().observe(getViewLifecycleOwner(), data -> {
-            updateStudentView(data);
-        });
+        observationEditText = view.findViewById(R.id.editText_observation);
+        saveObservationButton = view.findViewById(R.id.button_save_observation);
+        observationsListLayout = view.findViewById(R.id.layout_observations_list);
     }
 
+    // Método chamado quando os dados do estudante chegam do ViewModel
     private void updateStudentView(StudentData data) {
         if (data == null) return;
 
+        this.studentId = data.getId();
         profileUsername.setText(data.getNome());
         userName.setText(data.getNome());
-
         userEmail.setText(data.getEmailPrincipal());
-
-        String raw = data.getDataNascimento();
-        String formatted;
-        try {
-            String[] parts = raw.split("-");
-            formatted = parts[2] + "/" + parts[1] + "/" + parts[0];
-        } catch (Exception e) {
-            formatted = raw;
-        }
-        userBirth.setText(formatted);
         userCourse.setText(data.getCurso());
 
-        obs1.setText("--");
+        // Formata a data de nascimento
+        String rawBirthday = data.getDataNascimento();
+        if (rawBirthday != null) {
+            userBirth.setText(formatApiDateOnly(rawBirthday));
+        } else {
+            userBirth.setText("Não informada");
+        }
+
+        // Gatilho inicial para buscar o histórico de observações
+        if (studentId != null && !studentId.isEmpty()) {
+            fetchObservations(studentId);
+        }
+    }
+
+    /**
+     *Envia a nova observação para a API e, em caso de sucesso,
+     * chama fetchObservations para recarregar a lista de obs
+     */
+    private void saveObservationToApi(String observationText) {
+        String token = "f70e467007e33f442d2b01c37e6e0397";
+        int origem = 9;
+        int eventTypeId = 113;
+
+        if (token == null || origem == 0 || studentId == null) {
+            Toast.makeText(getContext(), "Erro: Dados da sessão ou do estudante não encontrados.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        EventRequest request = new EventRequest(Integer.parseInt(studentId), observationText, eventTypeId, origem, token);
+
+        RubeusClient.getInstance().addEvent(request).enqueue(new Callback<EventResponse>() {
+            @Override
+            public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    Toast.makeText(getContext(), "Observação salva!", Toast.LENGTH_SHORT).show();
+                    observationEditText.setText(""); // Limpa o campo
+
+                    // LÓGICA CORRETA: Recarrega a lista do servidor para garantir consistência
+                    fetchObservations(studentId);
+
+                } else {
+                    Toast.makeText(getContext(), "Erro ao salvar observação.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EventResponse> call, Throwable t) {
+                Toast.makeText(getContext(), "Falha de conexão.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * Busca as observações do estudante (filtrando pelo tipo 113 que é a observação)
+     * e, para cada uma, chama o addObservationToView
+     */
+    private void fetchObservations(String studentId) {
+        String token = "f70e467007e33f442d2b01c37e6e0397";
+        int origem = 9;
+        if (token == null) return;
+
+        ListEventsRequest request = new ListEventsRequest(Integer.parseInt(studentId), 113, origem, token);
+
+        RubeusClient.getInstance().listEvents(request).enqueue(new Callback<ListEventsResponse>() {
+            @Override
+            public void onResponse(Call<ListEventsResponse> call, Response<ListEventsResponse> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    observationsListLayout.removeAllViews(); // Limpa a lista antiga
+                    if (response.body().getDados() != null) {
+                        for (EventItem event : response.body().getDados()) {
+                            String formattedTimestamp = formatApiTimestamp(event.getMomento());
+                            // Chama o método com os DOIS argumentos corretos
+                            addObservationToView(event.getDescricao(), formattedTimestamp);
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<ListEventsResponse> call, Throwable t) {
+                Log.e("FETCH_OBS_FAIL", "Falha de conexão ao buscar observações", t);
+            }
+        });
+    }
+
+    /**
+     * Método que constroi a observacoa.
+     */
+    private void addObservationToView(String text, String timestamp) {
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View observationView = inflater.inflate(R.layout.item_observation, observationsListLayout, false);
+        TextView observationTextView = observationView.findViewById(R.id.textView_observation_text);
+        TextView timestampTextView = observationView.findViewById(R.id.textView_observation_timestamp);
+        observationTextView.setText(text);
+        timestampTextView.setText(timestamp);
+        observationsListLayout.addView(observationView, 0);
+    }
+
+    /**
+     * Método ajudante para formatar a data e hora que vem da API.
+     */
+    private String formatApiTimestamp(String apiTimestamp) {
+        if (apiTimestamp == null) return "Data indisponível";
+        try {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+            Date date = inputFormat.parse(apiTimestamp);
+            return outputFormat.format(date);
+        } catch (Exception e) {
+            return apiTimestamp;
+        }
+    }
+
+    /**
+     * Método ajudante para formatar apenas a data (para o campo de nascimento).
+     */
+    private String formatApiDateOnly(String apiDate) {
+        if (apiDate == null) return "Não informada";
+        try {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            Date date = inputFormat.parse(apiDate);
+            return outputFormat.format(date);
+        } catch (Exception e) {
+            return apiDate;
+        }
     }
 }

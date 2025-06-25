@@ -131,16 +131,34 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/info_container"
-            style="@style/InfoContainer">
+            android:orientation="vertical"
+            android:padding="8dp">
 
-            <TextView
-                android:id="@+id/obs1"
+            <EditText
+                android:id="@+id/editText_observation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Fulano está tendo um desempenho satisfatório, apesar que uma melhora seria cabível"
-                android:layout_marginTop="8dp"/>
+                android:hint="Digite uma nova observação..."
+                android:minLines="3"
+                android:gravity="top"
+                android:background="@android:drawable/editbox_background"/>
+
+            <Button
+                android:id="@+id/button_save_observation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="8dp"
+                android:text="Salvar"/>
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_observations_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="8dp"
+            android:paddingBottom="8dp"/>
+
     </LinearLayout>
 </RelativeLayout>

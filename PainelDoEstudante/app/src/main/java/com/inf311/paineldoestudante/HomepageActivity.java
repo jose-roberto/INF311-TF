@@ -1,5 +1,7 @@
 package com.inf311.paineldoestudante;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import android.content.Intent;
@@ -12,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -41,6 +44,8 @@ public class HomepageActivity extends AppCompatActivity {
     private Runnable searchRunnable;
     private List<UserData> lastSearchUsers = new ArrayList<>();
 
+    private Button testEventTypesButton; // Variável para nosso novo botão
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +54,7 @@ public class HomepageActivity extends AppCompatActivity {
 
         searchField = findViewById(R.id.searchField);
         setupSearch();
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.homepage), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -163,6 +169,51 @@ public class HomepageActivity extends AppCompatActivity {
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 Toast.makeText(HomepageActivity.this, "Erro de conexão na busca", Toast.LENGTH_SHORT).show();
                 Log.e("SEARCH_FAILURE", "Erro de rede", t);
+            }
+        });
+    }
+
+    // Isso aqui foi usado para criar um tipo de evento, que é o de observação de cod 113
+    private void createObservationEventType() {
+        Toast.makeText(this, "Tentando criar 'Tipo de Evento'...", Toast.LENGTH_SHORT).show();
+
+        String token = "f70e467007e33f442d2b01c37e6e0397";
+        int origem = 1;
+
+        if (token == null) {
+            Toast.makeText(this, "Erro de sessão, faça login de novo.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String eventTitle = "Observação do Gestor";
+        int creationMode = 3;
+
+        CreateEventTypeRequest request = new CreateEventTypeRequest(eventTitle, creationMode, origem, token);
+
+        RubeusClient.getInstance().createEventType(request).enqueue(new Callback<CreateEventTypeResponse>() {
+            @Override
+            public void onResponse(Call<CreateEventTypeResponse> call, Response<CreateEventTypeResponse> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    int newEventTypeId = response.body().getId();
+                    String message = "SUCESSO! Tipo de Evento criado com ID: " + newEventTypeId;
+                    Log.d("EVENT_CREATION", message);
+                    Toast.makeText(HomepageActivity.this, message, Toast.LENGTH_LONG).show();
+                    // ANOTE ESTE ID!
+                } else {
+                    String errorBody = "Corpo de erro indisponível";
+                    try {
+                        if (response.errorBody() != null) {
+                            errorBody = response.errorBody().string();
+                        }
+                    } catch (Exception e) {}
+                    Log.e("EVENT_CREATION", "Falha ao criar tipo. Código: " + response.code() + ". Resposta: " + errorBody);
+                    Toast.makeText(HomepageActivity.this, "Falha ao criar.", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateEventTypeResponse> call, Throwable t) {
+                Log.e("EVENT_CREATION", "Falha grave de conexão", t);
             }
         });
     }
