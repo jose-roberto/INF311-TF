@@ -20,7 +20,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -158,11 +160,14 @@ public class GeneralFragment extends Fragment {
             public void onResponse(Call<ListEventsResponse> call, Response<ListEventsResponse> response) {
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     observationsListLayout.removeAllViews(); // Limpa a lista antiga
-                    if (response.body().getDados() != null) {
-                        for (EventItem event : response.body().getDados()) {
-                            String formattedTimestamp = formatApiTimestamp(event.getMomento());
-                            // Chama o método com os DOIS argumentos corretos
-                            addObservationToView(event.getDescricao(), formattedTimestamp);
+                    List<EventItem> observacoes = response.body().getDados();
+                    if (observacoes != null && !observacoes.isEmpty()) {
+                        observacoes.sort(Comparator.comparing(EventItem::getMomento));//inverte a lista, porque a rubeus coloca
+                        //as mais antigas primeiro, entao a gente inverte a lista, afinal queremos as mais recente no topo
+                        for (EventItem observacao : observacoes) {
+                            String formattedTimestamp = formatApiTimestamp(observacao.getMomento());
+                            // Chama o método pra adicionas as observacoes na tela
+                            addObservationToView(observacao.getDescricao(), formattedTimestamp);
                         }
                     }
                 }

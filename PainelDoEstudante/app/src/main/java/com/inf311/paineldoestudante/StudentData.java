@@ -18,7 +18,7 @@ public class StudentData {
     private EmailsWrapper emails;
 
     @SerializedName("camposPersonalizados")
-    private List<UserProperties> userProperties;
+    private List<UserProperties> camposPersonalizados;
 
     public String getId() {
         return id;
@@ -49,14 +49,17 @@ public class StudentData {
     }
 
     public String getCurso() {
-        if (userProperties != null && !userProperties.isEmpty()) {
-            UserProperties course = userProperties.get(0);
-
-            if (course != null) {
-                return course.getValor();
+        if (camposPersonalizados != null) {
+            for (UserProperties prop : camposPersonalizados) {
+                if ("Curso".equalsIgnoreCase(prop.getNome())) {
+                    return prop.getValorAsString();
+                }
             }
         }
-
+        // Se não encontrar, retorna o valor padrão.
         return "--";
+    }
+    public List<UserProperties> getCamposPersonalizados() {
+        return camposPersonalizados;
     }
 }

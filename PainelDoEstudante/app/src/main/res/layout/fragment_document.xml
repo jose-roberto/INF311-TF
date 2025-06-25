@@ -48,49 +48,12 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/doc1"
-            style="@style/InfoContainer"
+        <LinearLayout
+            android:id="@+id/layout_documents_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/info_container"
-            android:drawablePadding="8dp"
-            android:text="Fulano Ciclano da Silva"
-            android:textSize="17sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/doc2"
-            style="@style/InfoContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/info_container"
-            android:drawablePadding="8dp"
-            android:text="Fulano Ciclano da Silva"
-            android:textSize="17sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/doc3"
-            style="@style/InfoContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/info_container"
-            android:drawablePadding="8dp"
-            android:text="Fulano Ciclano da Silva"
-            android:textSize="17sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/doc4"
-            style="@style/InfoContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/info_container"
-            android:drawablePadding="8dp"
-            android:text="Fulano Ciclano da Silva"
-            android:textSize="17sp"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            android:paddingTop="8dp" />
     </LinearLayout>
 
     <LinearLayout
