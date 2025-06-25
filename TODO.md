@@ -3,7 +3,7 @@
 - [ ] Melhorar visualização da pesquisa
 - [ ] Fazer um login funcional (ver se é possível utilizar sistema da Rubeus)
 - [ ] Atualizar os perfis acessados recentemente
-- [ ] Implementar exibição e adição de observações no perfil
+- [X] Implementar exibição e adição de observações no perfil
 - [X] Completar informações do perfil
 - [X] Corrigir o front para mudar a cor do menu ao navegar nas páginas do perfil
 - [X] Rever lógica da página de histórico e conectar à API
