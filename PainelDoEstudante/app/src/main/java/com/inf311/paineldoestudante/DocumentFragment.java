@@ -1,28 +1,43 @@
 package com.inf311.paineldoestudante;
 
 import android.app.DownloadManager;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.URLDecoder;
 import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class DocumentFragment extends Fragment {
 
@@ -30,19 +45,34 @@ public class DocumentFragment extends Fragment {
     private LinearLayout documentsListLayout;
     private LinearLayout certificatesListLayout;
     private Gson gson = new Gson();
+    private TextView profileUsername;
+    private ImageView profilePicture;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_document, container, false);
     }
 
-    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        initializeViews(view);
+        viewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
+        viewModel.getStudent().observe(getViewLifecycleOwner(), this::updateStudentHeader);
+        viewModel.getStudent().observe(getViewLifecycleOwner(), this::displayData);
+    }
+
+    private void initializeViews(View view) {
+        profileUsername = view.findViewById(R.id.profileUsername);
+        profilePicture = view.findViewById(R.id.profilePicture);
         documentsListLayout = view.findViewById(R.id.layout_documents_list);
         certificatesListLayout = view.findViewById(R.id.layout_certificates_list);
-        viewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
-        viewModel.getStudent().observe(getViewLifecycleOwner(), this::displayData);
+    }
+
+    private void updateStudentHeader(StudentData student) {
+        if (student != null) {
+            profileUsername.setText(student.getNome());
+        }
     }
 
     private void displayData(StudentData studentData) {
@@ -132,15 +162,79 @@ public class DocumentFragment extends Fragment {
     }
     private void downloadFile(String url, String fileName) {
         if (getContext() == null || url == null || url.isEmpty()) return;
+
+        new Thread(() -> {
+            try {
+                File cacheDir = requireContext().getCacheDir();
+                File tempFile = new File(cacheDir, fileName);
+
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder().url(url).build();
+                Response response = client.newCall(request).execute();
+
+                if (response.isSuccessful() && response.body() != null) {
+                    try (InputStream inputStream = response.body().byteStream();
+                         FileOutputStream outputStream = new FileOutputStream(tempFile)) {
+                        byte[] buffer = new byte[4096];
+                        int bytesRead;
+                        while ((bytesRead = inputStream.read(buffer)) != -1) {
+                            outputStream.write(buffer, 0, bytesRead);
+                        }
+                    }
+
+                    requireActivity().runOnUiThread(() -> openPdf(tempFile));
+                } else {
+                    throw new IOException("Falha no download");
+                }
+            } catch (Exception e) {
+                requireActivity().runOnUiThread(() ->
+                        Toast.makeText(getContext(), "Erro ao baixar o PDF", Toast.LENGTH_SHORT).show()
+                );
+            }
+        }).start();
+    }
+
+    private void openPdf(File pdfFile) {
         try {
-            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-            request.setTitle(fileName);
-            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
-            DownloadManager dm = (DownloadManager) requireActivity().getSystemService(Context.DOWNLOAD_SERVICE);
-            if (dm != null) dm.enqueue(request);
+            Uri uri = FileProvider.getUriForFile(
+                    requireContext(),
+                    requireContext().getPackageName() + ".provider",
+                    pdfFile
+            );
+
+            String[] pdfViewers = {
+                    "com.google.android.apps.pdfviewer",
+                    "com.adobe.reader",
+                    "cn.wps.moffice_eng",
+                    null
+            };
+
+            for (String viewer : pdfViewers) {
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(uri, "application/pdf");
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+                    if (viewer != null) {
+                        intent.setPackage(viewer);
+                    }
+
+                    startActivity(intent);
+                    pdfFile.deleteOnExit();
+                    return;
+                } catch (ActivityNotFoundException e) {
+                    continue;
+                }
+            }
+
+            Toast.makeText(getContext(),
+                    "Instale o Google PDF Viewer para melhor compatibilidade",
+                    Toast.LENGTH_LONG).show();
+
         } catch (Exception e) {
-            Toast.makeText(getContext(), "Não foi possível iniciar o download.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),
+                    "Erro técnico: " + e.getMessage(),
+                    Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -10,7 +10,7 @@ constraintlayout = "2.2.1"
 androidx-core = "1.13.1"
 retrofit = "2.12.0"
 okhttp = "4.12.0"
-
+coroutines = "1.7.3"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -24,6 +24,7 @@ core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
