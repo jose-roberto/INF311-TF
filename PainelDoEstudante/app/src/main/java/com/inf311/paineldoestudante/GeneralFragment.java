@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.AlertDialog;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,11 +21,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -152,22 +155,30 @@ public class GeneralFragment extends Fragment {
         String token = "f70e467007e33f442d2b01c37e6e0397";
         int origem = 9;
         if (token == null) return;
-
         ListEventsRequest request = new ListEventsRequest(Integer.parseInt(studentId), 113, origem, token);
-
         RubeusClient.getInstance().listEvents(request).enqueue(new Callback<ListEventsResponse>() {
             @Override
             public void onResponse(Call<ListEventsResponse> call, Response<ListEventsResponse> response) {
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                    observationsListLayout.removeAllViews(); // Limpa a lista antiga
-                    List<EventItem> observacoes = response.body().getDados();
-                    if (observacoes != null && !observacoes.isEmpty()) {
-                        observacoes.sort(Comparator.comparing(EventItem::getMomento));//inverte a lista, porque a rubeus coloca
-                        //as mais antigas primeiro, entao a gente inverte a lista, afinal queremos as mais recente no topo
-                        for (EventItem observacao : observacoes) {
-                            String formattedTimestamp = formatApiTimestamp(observacao.getMomento());
-                            // Chama o método pra adicionas as observacoes na tela
-                            addObservationToView(observacao.getDescricao(), formattedTimestamp);
+                    observationsListLayout.removeAllViews();
+                    List<EventItem> todasObservacoes = response.body().getDados();
+                    todasObservacoes.sort(Comparator.comparing(EventItem::getMomento).reversed());
+                    if (todasObservacoes != null && !todasObservacoes.isEmpty()) {
+                        List<EventItem> observacoesFiltradas = new ArrayList<>();
+                        for (EventItem observacao : todasObservacoes) {
+                            //To fazendo client-side filtering aqui
+                            //tentei fazer server-side, mas nao deu certo
+                            //se alguem quiser tentar
+                            if (studentId.equals(observacao.getPessoa())) {
+                                observacoesFiltradas.add(observacao);
+                            }
+                        }
+
+                        if (!observacoesFiltradas.isEmpty()) {
+                            observacoesFiltradas.sort(Comparator.comparing(EventItem::getMomento).reversed());
+                            for (EventItem observacao : observacoesFiltradas) {
+                                addObservationToView(observacao);
+                            }
                         }
                     }
                 }
@@ -182,14 +193,57 @@ public class GeneralFragment extends Fragment {
     /**
      * Método que constroi a observacoa.
      */
-    private void addObservationToView(String text, String timestamp) {
+    private void addObservationToView(EventItem observation) {
+        if (getContext() == null) return;
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View observationView = inflater.inflate(R.layout.item_observation, observationsListLayout, false);
+
         TextView observationTextView = observationView.findViewById(R.id.textView_observation_text);
         TextView timestampTextView = observationView.findViewById(R.id.textView_observation_timestamp);
-        observationTextView.setText(text);
-        timestampTextView.setText(timestamp);
-        observationsListLayout.addView(observationView, 0);
+        ImageView deleteButton = observationView.findViewById(R.id.button_delete_observation);
+
+        observationTextView.setText(observation.getDescricao());
+        timestampTextView.setText(formatApiTimestamp(observation.getMomento()));
+
+        deleteButton.setOnClickListener(v -> {
+            showDeleteConfirmationDialog(observation);
+        });
+
+        // Adiciona a view (sem o ", 0" para que as mais novas fiquem em cima)
+        observationsListLayout.addView(observationView);
+    }
+
+    private void showDeleteConfirmationDialog(EventItem observation) {
+        new AlertDialog.Builder(getContext())
+                .setTitle("Apagar Observação")
+                .setMessage("Tem certeza que deseja apagar esta observação?")
+                .setPositiveButton("Sim", (dialog, which) -> {
+                    deleteSingleObservation(observation.getId());
+                })
+                .setNegativeButton("Não", null)
+                .show();
+    }
+    private void deleteSingleObservation(String eventId) {
+        String token = "f70e467007e33f442d2b01c37e6e0397";
+        int origem = 9;
+
+        DeleteEventRequest request = new DeleteEventRequest(Integer.parseInt(eventId), origem, token);
+
+        RubeusClient.getInstance().deleteEvent(request).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getContext(), "Observação apagada.", Toast.LENGTH_SHORT).show();
+                    fetchObservations(studentId); // Recarrega a lista para mostrar a mudança
+                } else {
+                    Toast.makeText(getContext(), "Erro ao apagar.", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getContext(), "Falha de conexão.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /**

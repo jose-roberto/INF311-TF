@@ -75,37 +75,12 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/cert1"
-            style="@style/InfoContainer"
+        <LinearLayout
+            android:id="@+id/layout_certificates_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/info_container"
-            android:drawablePadding="8dp"
-            android:text="Curso de Inglês"
-            android:textSize="17sp"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            android:paddingTop="8dp" />
 
-        <TextView
-            android:id="@+id/cert2"
-            style="@style/InfoContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/info_container"
-            android:drawablePadding="8dp"
-            android:text="Minicurso de Empreendedorismo"
-            android:textSize="17sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/cert3"
-            style="@style/InfoContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/info_container"
-            android:drawablePadding="8dp"
-            android:text="Minicurso de Elaboração de Currículo"
-            android:textSize="17sp"
-            android:textStyle="bold" />
     </LinearLayout>
 </RelativeLayout>

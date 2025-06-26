@@ -29,4 +29,8 @@ public interface RubeusApi {
 
     @POST("api/Evento/listarEventos")
     Call<ListEventsResponse> listEvents(@Body ListEventsRequest requestBody);
+
+    @POST("api/Evento/excluir")
+    Call<ResponseBody> deleteEvent(@Body DeleteEventRequest requestBody);
+
 }
