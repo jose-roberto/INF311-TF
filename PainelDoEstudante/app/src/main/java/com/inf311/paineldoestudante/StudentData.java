@@ -20,6 +20,9 @@ public class StudentData {
     @SerializedName("camposPersonalizados")
     private List<UserProperties> camposPersonalizados;
 
+    @SerializedName("imagem")
+    private String imagem;
+
     public String getId() {
         return id;
     }
@@ -56,10 +59,13 @@ public class StudentData {
                 }
             }
         }
-        // Se não encontrar, retorna o valor padrão.
         return "--";
     }
     public List<UserProperties> getCamposPersonalizados() {
         return camposPersonalizados;
+    }
+
+    public String getImagem() {
+        return imagem;
     }
 }

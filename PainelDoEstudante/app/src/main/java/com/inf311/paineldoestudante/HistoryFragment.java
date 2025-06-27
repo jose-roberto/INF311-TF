@@ -10,6 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class HistoryFragment extends Fragment {
@@ -51,7 +54,14 @@ public class HistoryFragment extends Fragment {
     private void updateStudentHeader(StudentData student) {
         if (student != null) {
             profileUsername.setText(student.getNome());
-            // Glide.with(this).load(student.getFotoUrl()).into(profilePicture);
+        }
+
+        if (student.getImagem() != null && !student.getImagem().isEmpty()) {
+            Glide.with(this)
+                    .load(student.getImagem())
+                    .circleCrop()
+                    .error(R.drawable.default_profile)
+                    .into(profilePicture);
         }
     }
 

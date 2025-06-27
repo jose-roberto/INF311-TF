@@ -37,17 +37,15 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-
-    //retrofit e http apis
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp)
     implementation(libs.okhttp.logging.interceptor)
-
-    //testes
+    implementation(libs.coroutines.android)
+    implementation(libs.glide)
+    implementation(libs.glide.okhttp)
+    annotationProcessor(libs.glide.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-
-    implementation(libs.coroutines.android)
-    implementation(libs.okhttp.logging.interceptor)
 }

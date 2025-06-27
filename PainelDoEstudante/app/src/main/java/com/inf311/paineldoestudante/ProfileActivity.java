@@ -92,6 +92,7 @@ public class ProfileActivity extends AppCompatActivity {
                 "nome",
                 "emails",
                 "datanascimento",
+                "imagem",
                 "camposPersonalizados"
         );
 

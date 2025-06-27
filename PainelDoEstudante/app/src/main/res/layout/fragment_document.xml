@@ -14,8 +14,7 @@
         <ImageView
             android:id="@+id/profilePicture"
             android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/profile_picture" />
+            android:layout_height="40dp" />
 
         <TextView
             android:id="@+id/profileUsername"

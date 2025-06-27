@@ -20,6 +20,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -27,6 +33,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,6 +47,7 @@ public class GeneralFragment extends Fragment {
     private EditText observationEditText;
     private Button saveObservationButton;
     private LinearLayout observationsListLayout;
+    private ImageView profilePicture;
 
     // --- Ferramentas de Lógica ---
     private ProfileViewModel viewModel;
@@ -83,6 +92,7 @@ public class GeneralFragment extends Fragment {
         observationEditText = view.findViewById(R.id.editText_observation);
         saveObservationButton = view.findViewById(R.id.button_save_observation);
         observationsListLayout = view.findViewById(R.id.layout_observations_list);
+        profilePicture = view.findViewById(R.id.profilePicture);
     }
 
     // Método chamado quando os dados do estudante chegam do ViewModel
@@ -106,6 +116,14 @@ public class GeneralFragment extends Fragment {
         // Gatilho inicial para buscar o histórico de observações
         if (studentId != null && !studentId.isEmpty()) {
             fetchObservations(studentId);
+        }
+
+        if (data.getImagem() != null && !data.getImagem().isEmpty()) {
+            Glide.with(this)
+                    .load(data.getImagem())
+                    .circleCrop()
+                    .error(R.drawable.default_profile)
+                    .into(profilePicture);
         }
     }
 

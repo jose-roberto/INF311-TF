@@ -22,6 +22,8 @@ import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
@@ -72,6 +74,14 @@ public class DocumentFragment extends Fragment {
     private void updateStudentHeader(StudentData student) {
         if (student != null) {
             profileUsername.setText(student.getNome());
+        }
+
+        if (student.getImagem() != null && !student.getImagem().isEmpty()) {
+            Glide.with(this)
+                    .load(student.getImagem())
+                    .circleCrop()
+                    .error(R.drawable.default_profile)
+                    .into(profilePicture);
         }
     }
 
