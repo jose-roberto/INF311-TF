@@ -1,10 +1,10 @@
 package com.inf311.paineldoestudante;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,9 +15,12 @@ import java.util.List;
 public class HistoryFragment extends Fragment {
 
     private ProfileViewModel viewModel;
-    private View historyInfoContainer;
+    private ImageView profilePicture;
     private TextView profileUsername;
-    private TextView historyFrequencia, historyNotaGeral, historySatisfacao, historySituacao, historyLancamentos;
+    private TextView historyFrequencia;
+    private TextView historyNotaGeral;
+    private TextView historySatisfacao;
+    private TextView historySituacao;
 
     @Nullable
     @Override
@@ -28,50 +31,48 @@ public class HistoryFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         initializeViews(view);
         viewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
-
-        // Observa os dados do ALUNO para atualizar o cabeçalho.
-        viewModel.getStudent().observe(getViewLifecycleOwner(), studentData -> {
-            if (studentData != null) {
-                profileUsername.setText(studentData.getNome());
-            }
-        });
-
-        // Observa os dados do HISTÓRICO para preencher os detalhes.
-        viewModel.getHistory().observe(getViewLifecycleOwner(), historyList -> {
-            if (historyList != null && !historyList.isEmpty()) {
-                historyInfoContainer.setVisibility(View.VISIBLE);
-                RegisterData opportunity = historyList.get(0);
-                // A chamada agora é válida, pois o método espera o tipo correto.
-                updateDetailsView(opportunity.getCamposPersonalizados());
-            } else {
-                Log.d("HistoryFragment", "Lista de histórico vazia ou nula. Container permanece invisível.");
-                historyInfoContainer.setVisibility(View.GONE);
-            }
-        });
+        viewModel.getStudent().observe(getViewLifecycleOwner(), this::updateStudentHeader);
+        viewModel.getHistory().observe(getViewLifecycleOwner(), this::handleHistoryResponse);
     }
 
     private void initializeViews(View view) {
-        historyInfoContainer = view.findViewById(R.id.historyInfoContainer);
+        profilePicture = view.findViewById(R.id.profilePicture);
         profileUsername = view.findViewById(R.id.profileUsername);
-        historyFrequencia = view.findViewById(R.id.value_frequencia);
-        historyNotaGeral = view.findViewById(R.id.value_nota_geral);
-        historySatisfacao = view.findViewById(R.id.value_satisfacao);
-        historySituacao = view.findViewById(R.id.value_situacao);
-        historyLancamentos = view.findViewById(R.id.value_lancamentos);
+
+        historyFrequencia = view.findViewById(R.id.userFrequency);
+        historyNotaGeral = view.findViewById(R.id.userGrade);
+        historySatisfacao = view.findViewById(R.id.userSatisfaction);
+        historySituacao = view.findViewById(R.id.userSituation);
     }
 
-    private void updateDetailsView(OpportunityFields details) {
-        if (details == null) {
-            Log.e("HistoryFragment", "O objeto 'camposPersonalizados' do histórico chegou nulo.");
-            return;
+    private void updateStudentHeader(StudentData student) {
+        if (student != null) {
+            profileUsername.setText(student.getNome());
+            // Glide.with(this).load(student.getFotoUrl()).into(profilePicture);
         }
+    }
 
-        historyFrequencia.setText(details.getFrequencia() != null ? details.getFrequencia() + "%" : "--");
-        historyNotaGeral.setText(details.getNota() != null ? details.getNota() : "--");
-        historySatisfacao.setText(details.getSatisfacao() != null ? details.getSatisfacao() : "--");
-        historySituacao.setText(details.getSituacao() != null ? details.getSituacao() : "--");
-        historyLancamentos.setText(details.getLancamentos() != null ? details.getLancamentos() : "--");
+    private void handleHistoryResponse(List<RegisterData> registers) {
+        if (registers != null && !registers.isEmpty()) {
+            RegisterData opportunity = registers.get(0);
+            updateDetailsView(opportunity);
+        } else {
+            if (getView() != null) {
+                getView().findViewById(R.id.historyInfoContainer).setVisibility(View.GONE);
+            }
+        }
+    }
+
+    private void updateDetailsView(RegisterData data) {
+        HistoryData historyDetails = data.getCamposPersonalizados();
+        if (historyDetails == null) return;
+
+        historyFrequencia.setText("Frequência: " + historyDetails.getFrequencia());
+        historyNotaGeral.setText("Nota geral: " + historyDetails.getNota());
+        historySatisfacao.setText("Satisfação: " + historyDetails.getSatisfacao());
+        historySituacao.setText("Situação: " + historyDetails.getSituacao());
     }
 }

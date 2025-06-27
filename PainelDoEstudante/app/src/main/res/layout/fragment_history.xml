@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     style="@style/GeneralContainer">
 
     <LinearLayout
@@ -10,16 +10,18 @@
         android:orientation="horizontal"
         android:padding="10dp"
         android:background="@drawable/section_container" >
+
         <ImageView
             android:id="@+id/profilePicture"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/profile_picture" />
+
         <TextView
             android:id="@+id/profileUsername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Carregando..."
+            android:text="Fulano Ciclano"
             android:layout_marginLeft="10dp"
             android:textStyle="bold"
             android:textSize="17sp"
@@ -34,38 +36,92 @@
         android:layout_below="@id/userContainer"
         android:layout_marginTop="14dp"
         android:background="@drawable/section_container"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:orientation="vertical">
 
         <TextView
             style="@style/TitleContainer"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Acompanhamento do Estudante"
+            android:drawableStart="@drawable/ic_arrowright"
+            android:drawablePadding="8dp"
+            android:text="Informações do histórico"
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <GridLayout
+        <LinearLayout
+            style="@style/InfoContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:columnCount="2"
-            android:padding="16dp"
-            android:rowCount="5">
+            android:background="@drawable/info_container">
 
-            <TextView android:text="Frequência Geral:" style="@style/ReportLabel"/>
-            <TextView android:id="@+id/value_frequencia" style="@style/ReportValue"/>
+            <TextView
+                android:id="@+id/userFrequency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Frequência: "
+                android:textSize="17sp" />
+        </LinearLayout>
 
-            <TextView android:text="Nota Geral:" style="@style/ReportLabel"/>
-            <TextView android:id="@+id/value_nota_geral" style="@style/ReportValue"/>
+        <LinearLayout
+            style="@style/InfoContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/info_container">
 
-            <TextView android:text="Satisfação:" style="@style/ReportLabel"/>
-            <TextView android:id="@+id/value_satisfacao" style="@style/ReportValue"/>
+            <TextView
+                android:id="@+id/userGrade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nota geral: "
+                android:textSize="17sp" />
+        </LinearLayout>
 
-            <TextView android:text="Situação de Matrícula:" style="@style/ReportLabel"/>
-            <TextView android:id="@+id/value_situacao" style="@style/ReportValue"/>
+        <LinearLayout
+            style="@style/InfoContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/info_container">
 
-            <TextView android:text="Lançamentos Vencidos:" style="@style/ReportLabel"/>
-            <TextView android:id="@+id/value_lancamentos" style="@style/ReportValue"/>
-        </GridLayout>
+            <TextView
+                android:id="@+id/userSatisfaction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Satisfação: "
+                android:textSize="17sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/InfoContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/info_container">
+
+            <TextView
+                android:id="@+id/userSituation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Situação: "
+                android:textSize="17sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/certificateContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/historyInfoContainer"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/section_container">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Coeficiente de rendimento"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:drawableEnd="@drawable/ic_dropdown"
+            android:drawablePadding="8dp"
+            style="@style/TitleContainer"/>
     </LinearLayout>
 </RelativeLayout>
