@@ -96,6 +96,15 @@
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
+                <Button
+                    android:id="@+id/reportTab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:backgroundTint="@color/white"
+                    android:text="Relatório"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
             </LinearLayout>
         </HorizontalScrollView>
 

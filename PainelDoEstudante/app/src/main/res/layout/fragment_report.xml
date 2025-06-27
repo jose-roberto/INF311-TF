@@ -53,64 +53,62 @@
             android:textSize="18sp"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="5dp">
 
-            <TextView
-                android:id="@+id/couse"
-                android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/dateInitLayout"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:drawablePadding="8dp"
-                android:text="Slecione o curso"
-                android:textSize="14sp"
-                android:background="@drawable/info_container"
-                android:drawableStart="@drawable/ic_dropdown"
-                android:textStyle="bold"
-                style="@style/InfoContainer" />
+                android:layout_weight="1"
+                android:layout_marginEnd="5dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:startIconDrawable="@drawable/ic_calendar">
 
-            <TextView
-                android:id="@+id/type"
-                android:layout_width="match_parent"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:background="@drawable/info_container"
+                    android:id="@+id/materialInitDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Início"
+                    android:inputType="none"
+                    android:focusable="false"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/dateEndLayout"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:drawablePadding="8dp"
-                android:text="Tipo de relatório"
-                android:textSize="14sp"
-                android:drawableStart="@drawable/ic_dropdown"
-                android:background="@drawable/info_container"
-                android:textStyle="bold"
-                style="@style/InfoContainer" />
+                android:layout_weight="1"
+                android:layout_marginStart="5dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:startIconDrawable="@drawable/ic_calendar">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:background="@drawable/info_container"
+                    android:id="@+id/materialEndDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Fim"
+                    android:inputType="none"
+                    android:focusable="false"/>
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
-        <LinearLayout
+        <Button
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/reportTab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/begining"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="8dp"
-                android:text="Início do período"
-                android:textSize="14dp"
-                android:background="@drawable/info_container"
-                android:drawableStart="@drawable/ic_dropdown"
-                android:textStyle="bold"
-                style="@style/InfoContainer" />
-
-            <TextView
-                android:id="@+id/end"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="8dp"
-                android:text="Fim do período"
-                android:textSize="14sp"
-                android:background="@drawable/info_container"
-                android:drawableStart="@drawable/ic_dropdown"
-                android:textStyle="bold"
-                style="@style/InfoContainer" />
-        </LinearLayout>
+            android:backgroundTint="@color/black"
+            android:text="Relatório"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_marginVertical="12dp"/>
     </LinearLayout>
 
     <LinearLayout

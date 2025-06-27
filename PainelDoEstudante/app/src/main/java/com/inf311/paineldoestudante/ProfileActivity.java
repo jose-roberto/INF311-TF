@@ -24,7 +24,7 @@ import retrofit2.Response;
 
 public class ProfileActivity extends AppCompatActivity {
     private ProfileViewModel vm;
-    Button generalTab, historyTab, financeTab, documentsTab;
+    Button generalTab, historyTab, financeTab, documentsTab, reportTab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,7 @@ public class ProfileActivity extends AppCompatActivity {
         historyTab = findViewById(R.id.historyTab);
         financeTab = findViewById(R.id.financeTab);
         documentsTab = findViewById(R.id.documentsTab);
+        reportTab = findViewById(R.id.reportTab);
 
         List<Button> tabButtons = Arrays.asList(generalTab, historyTab, financeTab, documentsTab);
 
@@ -72,6 +73,11 @@ public class ProfileActivity extends AppCompatActivity {
         documentsTab.setOnClickListener(v -> {
             replaceFragment(new DocumentFragment());
             setActiveTab(documentsTab);
+        });
+
+        reportTab.setOnClickListener(v -> {
+            replaceFragment(new ReportFragment());
+            setActiveTab(reportTab);
         });
 
         if (savedInstanceState == null) {
@@ -178,7 +184,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void setActiveTab(Button activeTab) {
-        List<Button> allTabs = Arrays.asList(generalTab, historyTab, financeTab, documentsTab);
+        List<Button> allTabs = Arrays.asList(generalTab, historyTab, financeTab, documentsTab, reportTab);
 
         for (Button tab : allTabs) {
             if (tab == activeTab) {
