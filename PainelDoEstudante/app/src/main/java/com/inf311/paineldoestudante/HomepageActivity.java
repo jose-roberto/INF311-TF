@@ -2,6 +2,7 @@ package com.inf311.paineldoestudante;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import android.content.Intent;
@@ -10,6 +11,8 @@ import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -27,6 +30,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -40,6 +45,7 @@ import retrofit2.Response;
 public class HomepageActivity extends AppCompatActivity {
 
     private AutoCompleteTextView searchField;
+    private LinearLayout recentsContainer;
     private Handler handler = new Handler(Looper.getMainLooper()); //isso aqui vai agendar a busca com um delay
     private Runnable searchRunnable;
     private List<UserData> lastSearchUsers = new ArrayList<>();
@@ -63,6 +69,8 @@ public class HomepageActivity extends AppCompatActivity {
         });
 
         setupSearch();
+        recentsContainer = findViewById(R.id.recentsContainer);
+        loadRecentProfiles();
     }
 
     //configurar toda a lógica de busca.
@@ -198,7 +206,6 @@ public class HomepageActivity extends AppCompatActivity {
                     String message = "SUCESSO! Tipo de Evento criado com ID: " + newEventTypeId;
                     Log.d("EVENT_CREATION", message);
                     Toast.makeText(HomepageActivity.this, message, Toast.LENGTH_LONG).show();
-                    // ANOTE ESTE ID!
                 } else {
                     String errorBody = "Corpo de erro indisponível";
                     try {
@@ -217,34 +224,41 @@ public class HomepageActivity extends AppCompatActivity {
             }
         });
     }
-}
 
-//    private void updateSearchResults(List<UserData> users) {
-//        recentListLayout.removeAllViews();
-//
-//        if (users == null || users.isEmpty()) {
-//            return;
-//        }
-//
-//        // define o que vai pegar o xml
-//        LayoutInflater inflater = LayoutInflater.from(this);
-//        // aqui vai rodar pra cada resultado
-//        for (UserData user : users) {
-//            //meio que literalmente infla uma view de cartao usando o que eu fiz no xml do cartao
-//            View cardView = inflater.inflate(R.layout.item_search_result, recentListLayout, false);
-//
-//            // pega os textviews do xml e coloca com o nome e email do resultado atual do loop
-//            TextView nameTextView = cardView.findViewById(R.id.textView_name);
-//            TextView emailTextView = cardView.findViewById(R.id.textView_email);
-//            nameTextView.setText(user.getNome());
-//            emailTextView.setText(user.getEmail());
-//
-//            cardView.setOnClickListener(v -> {
-//                Intent intent = new Intent(HomepageActivity.this, ProfileActivity.class);
-//                intent.putExtra("USER_ID", user.getId());
-//                startActivity(intent);
-//            });
-//
-//            recentListLayout.addView(cardView);
-//        }
-//    }
+    private void loadRecentProfiles() {
+        LinearLayout recentsContainer = findViewById(R.id.recentsContainer);
+
+        while (recentsContainer.getChildCount() > 1) {
+            recentsContainer.removeViewAt(1);
+        }
+
+        List<RecentProfilesManager.ProfileEntry> recentProfiles =
+                RecentProfilesManager.readAllProfiles(this);
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+
+        for (RecentProfilesManager.ProfileEntry profile : recentProfiles) {
+            View profileView = inflater.inflate(R.layout.item_recent, recentsContainer, false);
+
+            ShapeableImageView profilePicture = profileView.findViewById(R.id.profilePicture);
+            TextView profileUsername = profileView.findViewById(R.id.profileUsername);
+
+            Glide.with(this)
+                    .load(profile.imageUrl)
+                    .placeholder(R.drawable.default_profile)
+                    .into(profilePicture);
+
+            profileUsername.setText(profile.userName);
+            profileView.setOnClickListener(v -> openProfile(profile.userId));
+
+            recentsContainer.addView(profileView);
+        }
+    }
+
+
+    private void openProfile(String userId) {
+        Intent intent = new Intent(HomepageActivity.this, ProfileActivity.class);
+        intent.putExtra("USER_ID", userId);
+        startActivity(intent);
+    }
+}

@@ -7,9 +7,9 @@
     android:id="@+id/homepage">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="24dp">
+        android:layout_width="wrap_content"
+        style="@style/GeneralContainer">
 
         <ImageView
             android:id="@+id/logo"

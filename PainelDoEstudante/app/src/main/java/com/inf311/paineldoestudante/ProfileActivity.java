@@ -112,6 +112,14 @@ public class ProfileActivity extends AppCompatActivity {
                         if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                             StudentData currentStudent = response.body().getDados();
                             vm.setStudent(currentStudent);
+
+                            RecentProfilesManager.saveProfile(
+                                    ProfileActivity.this,
+                                    currentStudent.getId(),
+                                    currentStudent.getNome(),
+                                    currentStudent.getImagem()
+                            );
+
                             Log.d("API_SUCCESS", "Aluno: " + currentStudent.getNome() +
                                     " / Email: " + currentStudent.getEmailPrincipal() +
                                     " / Nascimento: " + currentStudent.getDataNascimento());
