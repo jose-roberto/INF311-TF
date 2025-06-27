@@ -9,5 +9,5 @@
 - [X] Rever lógica da página de histórico e conectar à API
 - [ ] Rever lógica da página de financeiro e conectar à API
 - [X] Conectar página de documentos à API
-- [ ] Permitir que o documento seja aberto via aplicação
+- [X] Permitir que o documento seja aberto via aplicação
 - [ ] Adicionar página de relatório
