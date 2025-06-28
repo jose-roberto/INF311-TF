@@ -34,7 +34,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/paymentsContainer"
+        android:id="@+id/paymentsInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -43,6 +43,7 @@
         android:background="@drawable/section_container">
 
         <TextView
+            android:id="@+id/yearFilterText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2025"
@@ -50,122 +51,15 @@
             android:textSize="18sp"
             android:drawableEnd="@drawable/ic_dropdown"
             android:drawablePadding="8dp"
-            style="@style/TitleContainer"/>
+            style="@style/TitleContainer"
+            android:padding="8dp"/>
 
-        <TableLayout
-            android:id="@+id/tableLayout"
+        <LinearLayout
+            android:id="@+id/paymentsContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="*"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="30dp">
-
-            <TableRow>
-                <TextView
-                    android:text="Mês"
-                    android:padding="8dp"
-                    android:background="@drawable/border_cell"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:text="Valor"
-                    android:padding="8dp"
-                    android:background="@drawable/border_cell"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:text="Situação"
-                    android:padding="8dp"
-                    android:background="@drawable/border_cell"
-                    android:textStyle="bold" />
-            </TableRow>
-
-            <TableRow>
-                <TextView
-                    android:text="Janeiro"
-                    android:padding="8dp"
-                    android:background="@drawable/border_cell" />
-
-                <TextView
-                    android:text="R$ 150,00"
-                    android:padding="8dp"
-                    android:background="@drawable/border_cell" />
-
-                <TextView
-                    android:text="Pago"
-                    android:padding="8dp"
-                    android:background="@drawable/border_cell" />
-            </TableRow>
-
-            <TableRow>
-                <TextView
-                    android:text="Fevereiro"
-                    android:padding="8dp"
-                    android:background="@drawable/border_cell" />
-
-                <TextView
-                    android:text="R$ 150,00"
-                    android:padding="8dp"
-                    android:background="@drawable/border_cell" />
-
-                <TextView
-                    android:text="Pago"
-                    android:padding="8dp"
-                    android:background="@drawable/border_cell" />
-            </TableRow>
-
-            <TableRow>
-                <TextView
-                    android:text="Março"
-                    android:padding="8dp"
-                    android:background="@drawable/border_cell" />
-
-                <TextView
-                    android:text="R$ 150,00"
-                    android:padding="8dp"
-                    android:background="@drawable/border_cell" />
-
-                <TextView
-                    android:text="Pago"
-                    android:padding="8dp"
-                    android:background="@drawable/border_cell" />
-            </TableRow>
-
-            <TableRow>
-                <TextView
-                    android:text="Abril"
-                    android:padding="8dp"
-                    android:background="@drawable/border_cell" />
-
-                <TextView
-                    android:text="R$ 175,00"
-                    android:padding="8dp"
-                    android:background="@drawable/border_cell" />
-
-                <TextView
-                    android:text="Atrasado"
-                    android:padding="8dp"
-                    android:background="@drawable/border_cell" />
-            </TableRow>
-
-            <TableRow>
-                <TextView
-                    android:text="Maio"
-                    android:padding="8dp"
-                    android:background="@drawable/border_cell" />
-
-                <TextView
-                    android:text="R$ 150,00"
-                    android:padding="8dp"
-                    android:background="@drawable/border_cell" />
-
-                <TextView
-                    android:text="Em aberto"
-                    android:padding="8dp"
-                    android:background="@drawable/border_cell" />
-            </TableRow>
-        </TableLayout>
+            android:orientation="vertical"
+            android:paddingBottom="16dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -173,7 +67,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@id/paymentsContainer"
+        android:layout_below="@id/paymentsInfo"
         android:layout_marginTop="16dp"
         android:background="@drawable/section_container">
 
@@ -194,10 +88,12 @@
 
             <TextView
                 android:id="@+id/textOpenPayments"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="8dp"
-                android:text="Mensalidades em aberto:"
+                android:text="Mensalidades abertas"
+                android:layout_marginRight="20dp"
+                android:gravity="center"
                 android:textSize="15sp"
                 android:background="@drawable/info_container"
                 android:textStyle="bold"
@@ -205,10 +101,12 @@
 
             <TextView
                 android:id="@+id/valueOpenPayments"
-                android:layout_width="match_parent"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
                 android:drawablePadding="8dp"
                 android:text="2"
+                android:gravity="center"
                 android:textSize="15sp"
                 android:background="@drawable/info_container"
                 android:textStyle="bold"
@@ -222,10 +120,12 @@
 
             <TextView
                 android:id="@+id/textValuePayments"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="8dp"
-                android:text="Total:"
+                android:gravity="center"
+                android:layout_marginRight="20dp"
+                android:text="Valor total em aberto"
                 android:textSize="15sp"
                 android:background="@drawable/info_container"
                 android:textStyle="bold"
@@ -233,10 +133,12 @@
 
             <TextView
                 android:id="@+id/valueValuePayments"
-                android:layout_width="match_parent"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:drawablePadding="8dp"
                 android:text="R$ 325,00"
+                android:layout_marginLeft="8dp"
+                android:gravity="center"
                 android:textSize="15sp"
                 android:background="@drawable/info_container"
                 android:textStyle="bold"
