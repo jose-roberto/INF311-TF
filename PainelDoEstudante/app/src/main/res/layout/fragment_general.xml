@@ -93,7 +93,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_calendar"
-                android:drawablePadding="8dp"
                 android:textSize="17sp" />
         </LinearLayout>
 
@@ -122,15 +121,35 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/section_container">
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Observações"
-            android:textStyle="bold"
-            android:drawableStart="@drawable/ic_arrowright"
-            android:drawablePadding="8dp"
-            style="@style/TitleContainer"
-            android:textSize="18sp"/>
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Observações"
+                android:textStyle="bold"
+                android:drawableStart="@drawable/ic_arrowright"
+                android:drawablePadding="8dp"
+                style="@style/TitleContainer"
+                android:textSize="18sp"/>
+
+            <Button
+                android:id="@+id/button_save_observation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:drawableLeft="@drawable/ic_add"
+                android:backgroundTint="@color/white"
+                android:textColor="@color/black"/>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -139,21 +158,14 @@
             android:padding="8dp">
 
             <EditText
+                style="@style/InfoContainer"
                 android:id="@+id/editText_observation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Digite uma nova observação..."
-                android:minLines="3"
+                android:minLines="2"
                 android:gravity="top"
                 android:background="@android:drawable/editbox_background"/>
-
-            <Button
-                android:id="@+id/button_save_observation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="8dp"
-                android:text="Salvar"/>
         </LinearLayout>
 
         <LinearLayout

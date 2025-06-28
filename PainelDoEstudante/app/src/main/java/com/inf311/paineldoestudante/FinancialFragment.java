@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
@@ -327,10 +329,9 @@ public class FinancialFragment extends Fragment {
     }
 
     private void addEmptyPaymentView(String message) {
-        TextView emptyText = new TextView(getContext());
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        TextView emptyText = (TextView) inflater.inflate(R.layout.empty_message, paymentsContainer, false);
         emptyText.setText(message);
-        emptyText.setTextSize(16);
-        emptyText.setPadding(32, 32, 32, 32);
         paymentsContainer.addView(emptyText);
     }
 

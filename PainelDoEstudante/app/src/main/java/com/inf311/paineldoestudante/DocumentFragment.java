@@ -60,8 +60,10 @@ public class DocumentFragment extends Fragment {
 
         initializeViews(view);
         viewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
-        viewModel.getStudent().observe(getViewLifecycleOwner(), this::updateStudentHeader);
-        viewModel.getStudent().observe(getViewLifecycleOwner(), this::displayData);
+        viewModel.getStudent().observe(getViewLifecycleOwner(), student -> {
+            updateStudentHeader(student);
+            displayData(student);
+        });
     }
 
     private void initializeViews(View view) {
@@ -98,20 +100,18 @@ public class DocumentFragment extends Fragment {
 
         // Itera por todos os campos personalizados
         for (UserProperties prop : studentData.getCamposPersonalizados()) {
-            if (prop.getValor() == null || !prop.getValor().isJsonArray()) {
-                continue;
-            }
+            if (prop.getNome() == null) continue;
 
-            // Usamos um switch para direcionar os dados para a lista correta
-            // Usamos toLowerCase() para evitar problemas com "Documentos" vs "documentos"
-            switch (prop.getNome().toLowerCase()) {
-                case "documentos":
-                    populateFileList(prop.getValor(), documentsListLayout);
-                    break;
-                case "certificados":
-                    populateFileList(prop.getValor(), certificatesListLayout);
-                    break;
-            }
+            String nomeCampo = prop.getNome().toLowerCase();
+            JsonElement valorCampo = prop.getValor();
+
+            if (!nomeCampo.equals("documentos") && !nomeCampo.equals("certificados")) continue;
+
+            populateFileList(
+                    valorCampo,
+                    nomeCampo.equals("documentos") ? documentsListLayout : certificatesListLayout
+            );
+
         }
     }
 
@@ -127,6 +127,13 @@ public class DocumentFragment extends Fragment {
                 FileItem file = new FileItem(fileName, url);
                 addDocumentViewToList(file, targetLayout);
             }
+        } else {
+            if(targetLayout == documentsListLayout) {
+                addEmptyView("Nenhuma documento encontrado", 1);
+            } else {
+                addEmptyView("Nenhuma documento encontrado", 0);
+            }
+
         }
     }
 
@@ -144,7 +151,7 @@ public class DocumentFragment extends Fragment {
         parentLayout.addView(docView);
     }
     private String extractFileNameFromUrl(String url) {
-        String fileName = "Arquivo"; // Nome padrão
+        String fileName = "Arquivo";
         try {
             String decodedUrl = URLDecoder.decode(url, "UTF-8");
             String path = decodedUrl;
@@ -246,5 +253,20 @@ public class DocumentFragment extends Fragment {
                     "Erro técnico: " + e.getMessage(),
                     Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void addEmptyView(String message, int layout) {
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+
+        if(layout == 1){
+            TextView emptyText = (TextView) inflater.inflate(R.layout.empty_message, documentsListLayout, false);
+            emptyText.setText(message);
+            documentsListLayout.addView(emptyText);
+        } else {
+            TextView emptyText = (TextView) inflater.inflate(R.layout.empty_message, certificatesListLayout, false);
+            emptyText.setText(message);
+            certificatesListLayout.addView(emptyText);
+        }
+
     }
 }

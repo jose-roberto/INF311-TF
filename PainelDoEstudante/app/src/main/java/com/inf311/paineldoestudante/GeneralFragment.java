@@ -127,10 +127,6 @@ public class GeneralFragment extends Fragment {
         }
     }
 
-    /**
-     *Envia a nova observação para a API e, em caso de sucesso,
-     * chama fetchObservations para recarregar a lista de obs
-     */
     private void saveObservationToApi(String observationText) {
         String token = "f70e467007e33f442d2b01c37e6e0397";
         int origem = 9;
@@ -150,7 +146,6 @@ public class GeneralFragment extends Fragment {
                     Toast.makeText(getContext(), "Observação salva!", Toast.LENGTH_SHORT).show();
                     observationEditText.setText(""); // Limpa o campo
 
-                    // LÓGICA CORRETA: Recarrega a lista do servidor para garantir consistência
                     fetchObservations(studentId);
 
                 } else {
@@ -165,10 +160,6 @@ public class GeneralFragment extends Fragment {
         });
     }
 
-    /**
-     * Busca as observações do estudante (filtrando pelo tipo 113 que é a observação)
-     * e, para cada uma, chama o addObservationToView
-     */
     private void fetchObservations(String studentId) {
         String token = "f70e467007e33f442d2b01c37e6e0397";
         int origem = 9;
@@ -208,9 +199,6 @@ public class GeneralFragment extends Fragment {
         });
     }
 
-    /**
-     * Método que constroi a observacoa.
-     */
     private void addObservationToView(EventItem observation) {
         if (getContext() == null) return;
         LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -251,6 +239,7 @@ public class GeneralFragment extends Fragment {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
+                    Log.d("DELETE_RESPONSE", "Código: " + response.code());
                     Toast.makeText(getContext(), "Observação apagada.", Toast.LENGTH_SHORT).show();
                     fetchObservations(studentId); // Recarrega a lista para mostrar a mudança
                 } else {
@@ -264,9 +253,6 @@ public class GeneralFragment extends Fragment {
         });
     }
 
-    /**
-     * Método ajudante para formatar a data e hora que vem da API.
-     */
     private String formatApiTimestamp(String apiTimestamp) {
         if (apiTimestamp == null) return "Data indisponível";
         try {
@@ -279,9 +265,6 @@ public class GeneralFragment extends Fragment {
         }
     }
 
-    /**
-     * Método ajudante para formatar apenas a data (para o campo de nascimento).
-     */
     private String formatApiDateOnly(String apiDate) {
         if (apiDate == null) return "Não informada";
         try {
