@@ -232,10 +232,16 @@ public class HomepageActivity extends AppCompatActivity {
             recentsContainer.removeViewAt(1);
         }
 
-        List<RecentProfilesManager.ProfileEntry> recentProfiles =
-                RecentProfilesManager.readAllProfiles(this);
-
+        List<RecentProfilesManager.ProfileEntry> recentProfiles = RecentProfilesManager.readAllProfiles(this);
         LayoutInflater inflater = LayoutInflater.from(this);
+
+        if (recentProfiles.isEmpty()) {
+            TextView emptyText = (TextView) inflater.inflate(R.layout.empty_message, recentsContainer, false);
+            emptyText.setText("Nenhum perfil recente encontrado");
+            recentsContainer.addView(emptyText);
+            return;
+        }
+
 
         for (RecentProfilesManager.ProfileEntry profile : recentProfiles) {
             View profileView = inflater.inflate(R.layout.item_recent, recentsContainer, false);
