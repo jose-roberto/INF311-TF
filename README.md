@@ -1,5 +1,5 @@
 # INF311-TF
-Repositório para o desenvolvimento do trabalho final da disciplina INF311 - Repositório para o desenvolvimento do trabalho final da disciplina INF311 - Programação para Dispositivos Móveis.
+Repositório para o desenvolvimento do Trabalho Final da disciplina INF311 - Programação para Dispositivos Móveis.
 
 ## Integrantes do grupo
   1. Arthur Martins Maximo do Monte (arthur.monte@ufv.br)
